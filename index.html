@@ -1,70 +1,1598 @@
-const CACHE_NAME = 'ivan-beats-v2';
-const urlsToCache = [
-    '/',
-    '/index.html',
-    '/manifest.json',
-    '/audio/Simpons.mp3',
-    '/audio/Tattoo.mp3',
-    '/audio/Tu_boda.mp3',
-    '/audio/Tu_y_Yo.mp3',
-    '/audio/UNA_CERVEZA.mp3',
-    '/audio/escapate.mp3',
-    '/audio/vete_ya.mp3',
-    '/audio/vss.mp3',
-    '/icons/icon-72.png',
-    '/icons/icon-96.png',
-    '/icons/icon-128.png',
-    '/icons/icon-144.png',
-    '/icons/icon-152.png',
-    '/icons/icon-192.png',
-    '/icons/icon-384.png',
-    '/icons/icon-512.png'
-];
-
-self.addEventListener('install', event => {
-    event.waitUntil(
-        caches.open(CACHE_NAME)
-            .then(cache => {
-                console.log('📦 Cacheando archivos...');
-                return cache.addAll(urlsToCache);
-            })
-            .then(() => self.skipWaiting())
-    );
-});
-
-self.addEventListener('activate', event => {
-    event.waitUntil(
-        caches.keys().then(cacheNames => {
-            return Promise.all(
-                cacheNames.map(cacheName => {
-                    if (cacheName !== CACHE_NAME) {
-                        console.log('🗑️ Eliminando caché antigua:', cacheName);
-                        return caches.delete(cacheName);
-                    }
-                })
-            );
-        }).then(() => self.clients.claim())
-    );
-});
-
-self.addEventListener('fetch', event => {
-    event.respondWith(
-        caches.match(event.request)
-            .then(response => {
-                if (response) {
-                    return response;
-                }
-                return fetch(event.request).then(response => {
-                    if (!response || response.status !== 200 || response.type !== 'basic') {
-                        return response;
-                    }
-                    const responseToCache = response.clone();
-                    caches.open(CACHE_NAME)
-                        .then(cache => {
-                            cache.put(event.request, responseToCache);
-                        });
-                    return response;
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="theme-color" content="#0a0a14"/>
+    <meta name="description" content="Ivan Alberson Martinez — Mi Spotify Personal PWA"/>
+    <meta name="mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+    
+    <!-- Manifest inline -->
+    <script>
+        // MANIFEST INJECTADO DIRECTAMENTE
+        const manifest = {
+            name: "Ivan Beats - Mi Spotify Personal",
+            short_name: "Ivan Beats",
+            description: "Reproductor de música personal de Ivan Alberson Martinez. Funciona sin internet.",
+            start_url: "/",
+            scope: "/",
+            display: "standalone",
+            orientation: "portrait",
+            theme_color: "#0a0a14",
+            background_color: "#0a0a14",
+            lang: "es",
+            categories: ["music", "entertainment"],
+            icons: [
+                { src: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎵</text></svg>", sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" }
+            ]
+        };
+        // Registrar manifest
+        const blob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
+        const manifestURL = URL.createObjectURL(blob);
+        const link = document.createElement('link');
+        link.rel = 'manifest';
+        link.href = manifestURL;
+        document.head.appendChild(link);
+    </script>
+    
+    <!-- Service Worker inline -->
+    <script>
+        // SERVICE WORKER INYECTADO DIRECTAMENTE
+        if ('serviceWorker' in navigator) {
+            const swCode = `
+                const CACHE_NAME = 'ivan-beats-v2';
+                const urlsToCache = [
+                    '/',
+                    '/index.html'
+                ];
+                self.addEventListener('install', event => {
+                    event.waitUntil(
+                        caches.open(CACHE_NAME)
+                            .then(cache => cache.addAll(urlsToCache))
+                            .then(() => self.skipWaiting())
+                    );
                 });
-            })
-    );
-});
+                self.addEventListener('activate', event => {
+                    event.waitUntil(
+                        caches.keys().then(cacheNames => {
+                            return Promise.all(
+                                cacheNames.map(cacheName => {
+                                    if (cacheName !== CACHE_NAME) {
+                                        return caches.delete(cacheName);
+                                    }
+                                })
+                            );
+                        }).then(() => self.clients.claim())
+                    );
+                });
+                self.addEventListener('fetch', event => {
+                    event.respondWith(
+                        caches.match(event.request)
+                            .then(response => response || fetch(event.request))
+                    );
+                });
+            `;
+            const swBlob = new Blob([swCode], { type: 'application/javascript' });
+            const swURL = URL.createObjectURL(swBlob);
+            navigator.serviceWorker.register(swURL).catch(() => {});
+        }
+    </script>
+    
+    <title>Ivan Beats 🎵</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
+
+        :root {
+            --bg: #0a0a14;
+            --surface: #12121f;
+            --card: #1a1a2e;
+            --border: #2a2a45;
+            --a1: #7c3aed;
+            --a2: #a855f7;
+            --a3: #06b6d4;
+            --glow: rgba(124, 58, 237, 0.4);
+            --text: #f1f0ff;
+            --muted: #7c7a9e;
+            --bar-h: 88px;
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            height: 100%;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        #app {
+            display: grid;
+            grid-template-rows: 1fr var(--bar-h);
+            height: 100dvh;
+            height: 100vh;
+            padding-bottom: var(--safe-bottom);
+        }
+
+        #main {
+            overflow-y: auto;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
+        }
+
+        #main::-webkit-scrollbar {
+            width: 4px;
+        }
+        #main::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        #main::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: linear-gradient(180deg, var(--bg) 60%, transparent);
+            padding: 26px 22px 14px;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .logo {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--a1), var(--a3));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+            box-shadow: 0 0 24px var(--glow);
+            animation: logoGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes logoGlow {
+            0%,
+            100% {
+                box-shadow: 0 0 22px var(--glow);
+            }
+            50% {
+                box-shadow: 0 0 42px var(--glow), 0 0 60px rgba(6, 182, 212, 0.25);
+            }
+        }
+
+        .logo-text h1 {
+            font-size: 1.2rem;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            background: linear-gradient(90deg, var(--a2), var(--a3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-text p {
+            font-size: 0.7rem;
+            color: var(--muted);
+            letter-spacing: 0.05em;
+        }
+
+        .pwa-pill {
+            margin-left: auto;
+            font-size: 0.62rem;
+            font-weight: 700;
+            color: var(--a3);
+            border: 1px solid var(--a3);
+            border-radius: 100px;
+            padding: 3px 10px;
+            letter-spacing: 0.08em;
+            opacity: 0.8;
+            white-space: nowrap;
+        }
+
+        /* ===== INSTALL BANNER ===== */
+        #install-banner {
+            display: none;
+            margin: 0 14px 14px;
+            padding: 16px 18px;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.25), rgba(6, 182, 212, 0.15));
+            border: 1px solid rgba(124, 58, 237, 0.5);
+            border-radius: 16px;
+            align-items: center;
+            gap: 14px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(124, 58, 237, 0.2);
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #install-banner .banner-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        #install-banner .banner-text {
+            flex: 1;
+        }
+
+        #install-banner .banner-text h3 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+            background: linear-gradient(90deg, var(--a2), var(--a3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        #install-banner .banner-text p {
+            font-size: 0.72rem;
+            color: var(--muted);
+        }
+
+        #install-banner .banner-btn {
+            background: linear-gradient(135deg, var(--a1), var(--a2));
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 10px 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 16px var(--glow);
+            white-space: nowrap;
+        }
+
+        #install-banner .banner-btn:active {
+            transform: scale(0.95);
+        }
+
+        #install-banner .banner-close {
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 4px 8px;
+            transition: color 0.2s;
+        }
+
+        #install-banner .banner-close:hover {
+            color: var(--text);
+        }
+
+        /* ===== BOTÓN INSTALAR EN HEADER ===== */
+        .install-header-btn {
+            background: linear-gradient(135deg, var(--a1), var(--a2));
+            color: #fff;
+            border: none;
+            border-radius: 100px;
+            padding: 6px 14px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 12px var(--glow);
+            display: none;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+        }
+
+        .install-header-btn:active {
+            transform: scale(0.95);
+        }
+
+        .install-header-btn.show {
+            display: flex;
+        }
+
+        /* ===== HERO ===== */
+        #hero {
+            margin: 0 14px 20px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #1e1040 0%, #0d1f3c 50%, #0a0a14 100%);
+            border: 1px solid var(--border);
+            padding: 20px 18px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #hero::before {
+            content: '';
+            position: absolute;
+            width: 260px;
+            height: 260px;
+            background: radial-gradient(circle, rgba(124, 58, 237, 0.25), transparent 70%);
+            top: -80px;
+            right: -60px;
+            pointer-events: none;
+        }
+
+        .hero-label {
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            color: var(--a3);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        #hero-disc {
+            width: 76px;
+            height: 76px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--a1), #1e1040 60%, var(--a3));
+            border: 3px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin-bottom: 12px;
+            position: relative;
+            transition: transform 0.3s;
+        }
+
+        #hero-disc::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        #hero-disc.spin {
+            animation: spin 4s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        #hero-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin-bottom: 3px;
+            word-break: break-word;
+        }
+
+        #hero-artist {
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-bottom: 16px;
+        }
+
+        #viz {
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+            height: 30px;
+            margin-bottom: 16px;
+        }
+
+        .vbar {
+            width: 4px;
+            border-radius: 2px;
+            background: linear-gradient(180deg, var(--a2), var(--a3));
+            min-height: 4px;
+            opacity: 0.6;
+            transition: height 0.1s;
+        }
+
+        .vbar.on {
+            opacity: 1;
+        }
+
+        #prog-track {
+            width: 100%;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            cursor: pointer;
+            margin-bottom: 5px;
+            position: relative;
+            touch-action: none;
+        }
+
+        #prog-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--a1), var(--a3));
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.2s linear;
+        }
+
+        .time-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.66rem;
+            color: var(--muted);
+            margin-bottom: 14px;
+        }
+
+        .hctrl {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            justify-content: center;
+        }
+
+        .cbtn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--muted);
+            font-size: 1.15rem;
+            padding: 6px;
+            border-radius: 8px;
+            transition: color 0.2s, transform 0.15s;
+            line-height: 1;
+            touch-action: manipulation;
+        }
+
+        .cbtn:active {
+            transform: scale(0.9);
+        }
+
+        .cbtn:hover {
+            color: var(--text);
+            transform: scale(1.15);
+        }
+
+        .cbtn.active-tog {
+            color: var(--a3);
+        }
+
+        .playbtn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--a1), var(--a2));
+            color: #fff;
+            font-size: 1.35rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 24px var(--glow);
+            transition: transform 0.15s, box-shadow 0.15s;
+            border: none;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        .playbtn:active {
+            transform: scale(0.92);
+        }
+
+        .sec-label {
+            padding: 0 18px 10px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            color: var(--muted);
+            text-transform: uppercase;
+        }
+
+        #tracklist {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            padding: 0 10px 20px;
+        }
+
+        .track {
+            display: grid;
+            grid-template-columns: 44px 1fr auto;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.18s, border-color 0.18s;
+            border: 1px solid transparent;
+            touch-action: manipulation;
+        }
+
+        .track:active {
+            transform: scale(0.98);
+        }
+
+        .track:hover {
+            background: var(--card);
+            border-color: var(--border);
+        }
+
+        .track.active {
+            background: linear-gradient(90deg, rgba(124, 58, 237, 0.15), rgba(6, 182, 212, 0.06));
+            border-color: rgba(124, 58, 237, 0.3);
+        }
+
+        .t-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .track.active .t-icon {
+            background: linear-gradient(135deg, var(--a1), var(--a2));
+            border-color: transparent;
+        }
+
+        .t-info {
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        .t-info h3 {
+            font-size: 0.86rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .t-info p {
+            font-size: 0.7rem;
+            color: var(--muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .track.active .t-info h3 {
+            color: var(--a2);
+        }
+
+        .t-dur {
+            font-size: 0.7rem;
+            color: var(--muted);
+            flex-shrink: 0;
+        }
+
+        .eq {
+            display: none;
+            gap: 2px;
+            align-items: flex-end;
+            height: 16px;
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+        }
+
+        .track.active .eq {
+            display: flex;
+        }
+
+        .eq-b {
+            width: 3px;
+            border-radius: 1px;
+            background: var(--a2);
+            animation: eq 0.6s ease infinite alternate;
+        }
+
+        .eq-b:nth-child(2) {
+            animation-delay: 0.2s;
+            animation-duration: 0.5s;
+        }
+
+        .eq-b:nth-child(3) {
+            animation-delay: 0.4s;
+            animation-duration: 0.7s;
+        }
+
+        @keyframes eq {
+            from {
+                height: 4px;
+            }
+            to {
+                height: 14px;
+            }
+        }
+
+        .credits {
+            text-align: center;
+            padding: 24px 16px 8px;
+            font-size: 0.66rem;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .credits strong {
+            color: var(--a2);
+            font-weight: 700;
+        }
+
+        #player-bar {
+            background: rgba(18, 18, 31, 0.96);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 14px;
+            gap: 12px;
+            height: var(--bar-h);
+            position: relative;
+            z-index: 20;
+        }
+
+        .bar-thumb {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, var(--a1), #0d1f3c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .bar-info {
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        .bar-info h4 {
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .bar-info p {
+            font-size: 0.66rem;
+            color: var(--muted);
+        }
+
+        .bar-ctrls {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .bbtn {
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-size: 1.05rem;
+            cursor: pointer;
+            padding: 7px;
+            border-radius: 8px;
+            transition: color 0.2s, background 0.2s;
+            line-height: 1;
+            touch-action: manipulation;
+        }
+
+        .bbtn:active {
+            transform: scale(0.9);
+        }
+
+        .bbtn:hover {
+            color: var(--text);
+            background: var(--card);
+        }
+
+        .bplay {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--a1), var(--a2));
+            color: #fff;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px var(--glow);
+            border: none;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        .bplay:active {
+            transform: scale(0.9);
+        }
+
+        .vol-wrap {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .vol-wrap span {
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 68px;
+            height: 4px;
+            border-radius: 2px;
+            background: var(--border);
+            cursor: pointer;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--a2);
+            cursor: pointer;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--a2);
+            border: none;
+            cursor: pointer;
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 18px 16px 10px;
+            }
+
+            .logo {
+                width: 38px;
+                height: 38px;
+                font-size: 17px;
+            }
+
+            .logo-text h1 {
+                font-size: 1rem;
+            }
+
+            .pwa-pill {
+                font-size: 0.5rem;
+                padding: 2px 8px;
+            }
+
+            #hero {
+                padding: 16px 14px;
+                margin: 0 10px 16px;
+            }
+
+            #hero-disc {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+            }
+
+            #hero-title {
+                font-size: 1rem;
+            }
+
+            .hctrl {
+                gap: 10px;
+            }
+
+            .playbtn {
+                width: 42px;
+                height: 42px;
+                font-size: 1.1rem;
+            }
+
+            .cbtn {
+                font-size: 1rem;
+                padding: 4px;
+            }
+
+            .track {
+                padding: 7px 8px;
+                gap: 8px;
+            }
+
+            .t-icon {
+                width: 38px;
+                height: 38px;
+                font-size: 0.9rem;
+            }
+
+            .t-info h3 {
+                font-size: 0.78rem;
+            }
+
+            #player-bar {
+                padding: 0 10px;
+                gap: 8px;
+            }
+
+            .bar-thumb {
+                width: 38px;
+                height: 38px;
+                font-size: 17px;
+            }
+
+            .bar-info h4 {
+                font-size: 0.72rem;
+            }
+
+            .vol-wrap {
+                display: none;
+            }
+
+            .bar-ctrls {
+                gap: 2px;
+            }
+
+            .bplay {
+                width: 34px;
+                height: 34px;
+                font-size: 0.85rem;
+            }
+
+            .bbtn {
+                font-size: 0.9rem;
+                padding: 5px;
+            }
+
+            #install-banner {
+                font-size: 0.7rem;
+                padding: 12px 14px;
+                margin: 0 10px 10px;
+                flex-wrap: wrap;
+            }
+
+            #install-banner .banner-btn {
+                padding: 8px 16px;
+                font-size: 0.7rem;
+            }
+
+            .install-header-btn {
+                font-size: 0.6rem;
+                padding: 4px 10px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .pwa-pill {
+                display: none;
+            }
+
+            .hctrl {
+                gap: 6px;
+            }
+
+            .playbtn {
+                width: 38px;
+                height: 38px;
+                font-size: 0.95rem;
+            }
+        }
+
+        @supports (padding: max(0px)) {
+            #app {
+                padding-bottom: max(env(safe-area-inset-bottom), 0px);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app">
+        <div id="main">
+
+            <header>
+                <div class="logo">🎧</div>
+                <div class="logo-text">
+                    <h1>Ivan Beats</h1>
+                    <p>Ivan Alberson Martinez</p>
+                </div>
+                <button class="install-header-btn" id="installHeaderBtn">
+                    📲 Instalar
+                </button>
+                <div class="pwa-pill">📱 OFFLINE</div>
+            </header>
+
+            <div id="install-banner">
+                <div class="banner-icon">📲</div>
+                <div class="banner-text">
+                    <h3>Instala Ivan Beats</h3>
+                    <p>Escucha tu música sin internet y como app nativa</p>
+                </div>
+                <button class="banner-btn" id="installBtn">Instalar ahora</button>
+                <button class="banner-close" id="closeBanner">✕</button>
+            </div>
+
+            <div id="hero">
+                <div class="hero-label">▶ Reproduciendo ahora</div>
+                <div id="hero-disc">🎵</div>
+                <div id="hero-title">Selecciona una canción</div>
+                <div id="hero-artist">Ivan Alberson Martinez</div>
+
+                <div id="viz"></div>
+
+                <div id="prog-track">
+                    <div id="prog-fill"></div>
+                </div>
+                <div class="time-row">
+                    <span id="t-cur">0:00</span>
+                    <span id="t-tot">0:00</span>
+                </div>
+
+                <div class="hctrl">
+                    <button class="cbtn" id="btn-shuf" aria-label="Aleatorio">🔀</button>
+                    <button class="cbtn" id="btn-prev" aria-label="Anterior">⏮</button>
+                    <button class="cbtn playbtn" id="hero-play" aria-label="Reproducir">▶</button>
+                    <button class="cbtn" id="btn-next" aria-label="Siguiente">⏭</button>
+                    <button class="cbtn" id="btn-rep" aria-label="Repetir">🔁</button>
+                </div>
+            </div>
+
+            <div class="sec-label">🎵 Tu Playlist</div>
+            <div id="tracklist">
+                <div class="track" data-file="audio/Simpons.mp3" data-title="Los Simpson" data-emoji="🎤" data-artist="Ivan Alberson Martinez">
+                    <div class="t-icon">
+                        <span class="t-emoji">🎤</span>
+                        <div class="eq">
+                            <div class="eq-b" style="height:6px"></div>
+                            <div class="eq-b" style="height:10px"></div>
+                            <div class="eq-b" style="height:4px"></div>
+                        </div>
+                    </div>
+                    <div class="t-info">
+                        <h3>Los Simpson</h3>
+                        <p>Ivan Alberson Martinez</p>
+                    </div>
+                    <div class="t-dur">—:——</div>
+                </div>
+
+                <div class="track" data-file="audio/Tattoo.mp3" data-title="Tattoo" data-emoji="🎵" data-artist="Ivan Alberson Martinez">
+                    <div class="t-icon">
+                        <span class="t-emoji">🎵</span>
+                        <div class="eq">
+                            <div class="eq-b" style="height:6px"></div>
+                            <div class="eq-b" style="height:10px"></div>
+                            <div class="eq-b" style="height:4px"></div>
+                        </div>
+                    </div>
+                    <div class="t-info">
+                        <h3>Tattoo</h3>
+                        <p>Ivan Alberson Martinez</p>
+                    </div>
+                    <div class="t-dur">—:——</div>
+                </div>
+
+                <div class="track" data-file="audio/Tu_boda.mp3" data-title="Tu Boda" data-emoji="💍" data-artist="Ivan Alberson Martinez">
+                    <div class="t-icon">
+                        <span class="t-emoji">💍</span>
+                        <div class="eq">
+                            <div class="eq-b" style="height:6px"></div>
+                            <div class="eq-b" style="height:10px"></div>
+                            <div class="eq-b" style="height:4px"></div>
+                        </div>
+                    </div>
+                    <div class="t-info">
+                        <h3>Tu Boda</h3>
+                        <p>Ivan Alberson Martinez</p>
+                    </div>
+                    <div class="t-dur">—:——</div>
+                </div>
+
+                <div class="track" data-file="audio/Tu_y_Yo.mp3" data-title="Tu y Yo" data-emoji="🎶" data-artist="Ivan Alberson Martinez">
+                    <div class="t-icon">
+                        <span class="t-emoji">🎶</span>
+                        <div class="eq">
+                            <div class="eq-b" style="height:6px"></div>
+                            <div class="eq-b" style="height:10px"></div>
+                            <div class="eq-b" style="height:4px"></div>
+                        </div>
+                    </div>
+                    <div class="t-info">
+                        <h3>Tu y Yo</h3>
+                        <p>Ivan Alberson Martinez</p>
+                    </div>
+                    <div class="t-dur">—:——</div>
+                </div>
+
+                <div class="track" data-file="audio/UNA_CERVEZA.mp3" data-title="Una Cerveza" data-emoji="🍺" data-artist="Ivan Alberson Martinez">
+                    <div class="t-icon">
+                        <span class="t-emoji">🍺</span>
+                        <div class="eq">
+                            <div class="eq-b" style="height:6px"></div>
+                            <div class="eq-b" style="height:10px"></div>
+                            <div class="eq-b" style="height:4px"></div>
+                        </div>
+                    </div>
+                    <div class="t-info">
+                        <h3>Una Cerveza</h3>
+                        <p>Ivan Alberson Martinez</p>
+                    </div>
+                    <div class="t-dur">—:——</div>
+                </div>
+
+                <div class="track" data-file="audio/escapate.mp3" data-title="Escápate" data-emoji="🏃" data-artist="Ivan Alberson Martinez">
+                    <div class="t-icon">
+                        <span class="t-emoji">🏃</span>
+                        <div class="eq">
+                            <div class="eq-b" style="height:6px"></div>
+                            <div class="eq-b" style="height:10px"></div>
+                            <div class="eq-b" style="height:4px"></div>
+                        </div>
+                    </div>
+                    <div class="t-info">
+                        <h3>Escápate</h3>
+                        <p>Ivan Alberson Martinez</p>
+                    </div>
+                    <div class="t-dur">—:——</div>
+                </div>
+
+                <div class="track" data-file="audio/vete_ya.mp3" data-title="Vete Ya" data-emoji="👋" data-artist="Ivan Alberson Martinez">
+                    <div class="t-icon">
+                        <span class="t-emoji">👋</span>
+                        <div class="eq">
+                            <div class="eq-b" style="height:6px"></div>
+                            <div class="eq-b" style="height:10px"></div>
+                            <div class="eq-b" style="height:4px"></div>
+                        </div>
+                    </div>
+                    <div class="t-info">
+                        <h3>Vete Ya</h3>
+                        <p>Ivan Alberson Martinez</p>
+                    </div>
+                    <div class="t-dur">—:——</div>
+                </div>
+
+                <div class="track" data-file="audio/vss.mp3" data-title="VSS" data-emoji="🎧" data-artist="Ivan Alberson Martinez">
+                    <div class="t-icon">
+                        <span class="t-emoji">🎧</span>
+                        <div class="eq">
+                            <div class="eq-b" style="height:6px"></div>
+                            <div class="eq-b" style="height:10px"></div>
+                            <div class="eq-b" style="height:4px"></div>
+                        </div>
+                    </div>
+                    <div class="t-info">
+                        <h3>VSS</h3>
+                        <p>Ivan Alberson Martinez</p>
+                    </div>
+                    <div class="t-dur">—:——</div>
+                </div>
+            </div>
+
+            <div class="credits">
+                Hecho con ❤️ por <strong>Ivan Alberson Martinez</strong><br/>
+                Mini Spotify Personal · PWA · Funciona sin internet
+            </div>
+        </div>
+
+        <div id="player-bar">
+            <div class="bar-thumb" id="bar-thumb">🎵</div>
+            <div class="bar-info">
+                <h4 id="bar-title">Nada reproduciendo</h4>
+                <p>Ivan Alberson Martinez</p>
+            </div>
+            <div class="bar-ctrls">
+                <button class="bbtn" id="bar-prev" aria-label="Anterior">⏮</button>
+                <button class="bbtn bplay" id="bar-play" aria-label="Reproducir">▶</button>
+                <button class="bbtn" id="bar-next" aria-label="Siguiente">⏭</button>
+            </div>
+            <div class="vol-wrap">
+                <span>🔊</span>
+                <input type="range" id="vol" min="0" max="1" step="0.05" value="0.8" aria-label="Volumen"/>
+            </div>
+        </div>
+    </div>
+
+    <audio id="aud" preload="metadata"></audio>
+
+    <script>
+        // ============================================================
+        //  IVAN BEATS - TODO EN UN SOLO ARCHIVO
+        //  CON MEDIA SESSION PARA CONTROLES EXTERNOS
+        // ============================================================
+
+        (function() {
+            'use strict';
+
+            // ============================================================
+            //  ESTADO
+            // ============================================================
+            let currentIndex = -1;
+            let isPlaying = false;
+            let isShuffle = false;
+            let isRepeat = false;
+            let deferredPrompt = null;
+
+            // ============================================================
+            //  ELEMENTOS DOM
+            // ============================================================
+            const aud = document.getElementById('aud');
+            const tracks = Array.from(document.querySelectorAll('.track'));
+            const heroTitle = document.getElementById('hero-title');
+            const heroDisc = document.getElementById('hero-disc');
+            const barThumb = document.getElementById('bar-thumb');
+            const barTitle = document.getElementById('bar-title');
+            const progFill = document.getElementById('prog-fill');
+            const tCur = document.getElementById('t-cur');
+            const tTot = document.getElementById('t-tot');
+            const heroPlayBtn = document.getElementById('hero-play');
+            const barPlayBtn = document.getElementById('bar-play');
+            const volInput = document.getElementById('vol');
+            const progTrack = document.getElementById('prog-track');
+
+            // Elementos de instalación
+            const installBanner = document.getElementById('install-banner');
+            const installBtn = document.getElementById('installBtn');
+            const installHeaderBtn = document.getElementById('installHeaderBtn');
+            const closeBanner = document.getElementById('closeBanner');
+
+            // ============================================================
+            //  VISUALIZADOR
+            // ============================================================
+            const viz = document.getElementById('viz');
+            const visualBars = [];
+
+            function initVisualizer() {
+                const count = Math.min(26, Math.floor(window.innerWidth / 6));
+                for (let i = 0; i < count; i++) {
+                    const b = document.createElement('div');
+                    b.className = 'vbar';
+                    b.style.height = (4 + Math.random() * 18) + 'px';
+                    viz.appendChild(b);
+                    visualBars.push(b);
+                }
+            }
+
+            let visTimer = null;
+
+            function startVisualizer() {
+                clearInterval(visTimer);
+                visTimer = setInterval(() => {
+                    visualBars.forEach(b => {
+                        b.style.height = (4 + Math.random() * 24) + 'px';
+                        b.classList.toggle('on', Math.random() > 0.3);
+                    });
+                }, 110);
+            }
+
+            function stopVisualizer() {
+                clearInterval(visTimer);
+                visualBars.forEach((b, i) => {
+                    b.style.height = (4 + Math.sin(i * 0.4) * 8) + 'px';
+                    b.classList.remove('on');
+                });
+            }
+
+            // ============================================================
+            //  UTILIDADES
+            // ============================================================
+            function formatTime(seconds) {
+                if (!isFinite(seconds) || seconds < 0) return '0:00';
+                const m = Math.floor(seconds / 60);
+                const s = Math.floor(seconds % 60);
+                return m + ':' + String(s).padStart(2, '0');
+            }
+
+            function getCurrentTrackData() {
+                if (currentIndex < 0 || currentIndex >= tracks.length) return null;
+                const el = tracks[currentIndex];
+                return {
+                    title: el.dataset.title || 'Sin título',
+                    artist: el.dataset.artist || 'Ivan Alberson Martinez',
+                    emoji: el.dataset.emoji || '🎵',
+                    file: el.dataset.file
+                };
+            }
+
+            // ============================================================
+            //  MEDIA SESSION API - CONTROLES EXTERNOS
+            // ============================================================
+            function updateMediaSession() {
+                if (!('mediaSession' in navigator)) return;
+
+                const track = getCurrentTrackData();
+                if (!track) {
+                    navigator.mediaSession.metadata = null;
+                    return;
+                }
+
+                // Crear metadata para controles externos
+                const metadata = new MediaMetadata({
+                    title: track.title,
+                    artist: track.artist,
+                    album: 'Ivan Beats',
+                    artwork: [
+                        { src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">' + track.emoji + '</text></svg>', sizes: '512x512' }
+                    ]
+                });
+
+                navigator.mediaSession.metadata = metadata;
+
+                // Acciones desde fuera de la app
+                navigator.mediaSession.setActionHandler('play', () => {
+                    if (currentIndex < 0) {
+                        loadTrack(0, true);
+                    } else if (!isPlaying) {
+                        play();
+                    }
+                });
+
+                navigator.mediaSession.setActionHandler('pause', () => {
+                    if (isPlaying) pause();
+                });
+
+                navigator.mediaSession.setActionHandler('previoustrack', () => {
+                    prevTrack();
+                });
+
+                navigator.mediaSession.setActionHandler('nexttrack', () => {
+                    nextTrack();
+                });
+
+                navigator.mediaSession.setActionHandler('seekto', (details) => {
+                    if (details.seekTime !== undefined) {
+                        aud.currentTime = details.seekTime;
+                    }
+                });
+
+                navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
+            }
+
+            // ============================================================
+            //  CARGAR DURACIONES
+            // ============================================================
+            function loadDurations() {
+                tracks.forEach(el => {
+                    const file = el.dataset.file;
+                    if (!file) return;
+                    const a = new Audio();
+                    a.preload = 'metadata';
+                    a.src = file;
+                    a.addEventListener('loadedmetadata', function() {
+                        const durEl = el.querySelector('.t-dur');
+                        if (durEl) {
+                            durEl.textContent = formatTime(this.duration);
+                        }
+                    });
+                    a.addEventListener('error', function() {
+                        const durEl = el.querySelector('.t-dur');
+                        if (durEl) {
+                            durEl.textContent = '⚠️';
+                        }
+                    });
+                });
+            }
+
+            // ============================================================
+            //  REPRODUCCIÓN
+            // ============================================================
+            function loadTrack(index, autoPlay = false) {
+                if (index < 0 || index >= tracks.length) return;
+
+                const el = tracks[index];
+                const file = el.dataset.file;
+                const title = el.dataset.title || 'Sin título';
+                const emoji = el.dataset.emoji || '🎵';
+
+                currentIndex = index;
+
+                aud.src = file;
+                aud.load();
+
+                heroTitle.textContent = title;
+                heroDisc.textContent = emoji;
+                barThumb.textContent = emoji;
+                barTitle.textContent = title;
+
+                tracks.forEach((t, i) => {
+                    t.classList.toggle('active', i === index);
+                });
+
+                updateMediaSession();
+
+                if (autoPlay) {
+                    play();
+                }
+            }
+
+            function play() {
+                if (currentIndex < 0) {
+                    loadTrack(0, true);
+                    return;
+                }
+
+                aud.play()
+                    .then(() => {
+                        isPlaying = true;
+                        updatePlayButtons(true);
+                        startVisualizer();
+                        heroDisc.classList.add('spin');
+                        if ('mediaSession' in navigator) {
+                            navigator.mediaSession.playbackState = 'playing';
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Error:', err);
+                        alert('❌ No se puede reproducir el audio.\nVerifica que los MP3 estén en /audio/');
+                    });
+            }
+
+            function pause() {
+                aud.pause();
+                isPlaying = false;
+                updatePlayButtons(false);
+                stopVisualizer();
+                heroDisc.classList.remove('spin');
+                if ('mediaSession' in navigator) {
+                    navigator.mediaSession.playbackState = 'paused';
+                }
+            }
+
+            function togglePlay() {
+                if (currentIndex < 0) {
+                    loadTrack(0, true);
+                    return;
+                }
+                if (isPlaying) {
+                    pause();
+                } else {
+                    play();
+                }
+            }
+
+            function nextTrack() {
+                if (tracks.length === 0) return;
+                let nextIdx;
+                if (isShuffle) {
+                    do {
+                        nextIdx = Math.floor(Math.random() * tracks.length);
+                    } while (nextIdx === currentIndex && tracks.length > 1);
+                } else {
+                    nextIdx = (currentIndex + 1) % tracks.length;
+                }
+                loadTrack(nextIdx, true);
+            }
+
+            function prevTrack() {
+                if (tracks.length === 0) return;
+                if (aud.currentTime > 3) {
+                    aud.currentTime = 0;
+                    return;
+                }
+                const prevIdx = (currentIndex - 1 + tracks.length) % tracks.length;
+                loadTrack(prevIdx, isPlaying);
+            }
+
+            function updatePlayButtons(playing) {
+                const icon = playing ? '⏸' : '▶';
+                heroPlayBtn.textContent = icon;
+                barPlayBtn.textContent = icon;
+            }
+
+            // ============================================================
+            //  EVENTOS DEL AUDIO
+            // ============================================================
+            aud.addEventListener('timeupdate', function() {
+                const pct = this.duration ? (this.currentTime / this.duration) * 100 : 0;
+                progFill.style.width = pct + '%';
+                tCur.textContent = formatTime(this.currentTime);
+                tTot.textContent = formatTime(this.duration);
+            });
+
+            aud.addEventListener('ended', function() {
+                if (isRepeat) {
+                    this.currentTime = 0;
+                    play();
+                } else {
+                    nextTrack();
+                }
+            });
+
+            aud.addEventListener('play', function() {
+                if ('mediaSession' in navigator) {
+                    navigator.mediaSession.playbackState = 'playing';
+                }
+            });
+
+            aud.addEventListener('pause', function() {
+                if ('mediaSession' in navigator) {
+                    navigator.mediaSession.playbackState = 'paused';
+                }
+            });
+
+            aud.addEventListener('error', function(e) {
+                console.error('Error de audio:', e);
+                console.log('URL:', this.src);
+            });
+
+            // ============================================================
+            //  CONTROLES
+            // ============================================================
+            heroPlayBtn.addEventListener('click', togglePlay);
+            barPlayBtn.addEventListener('click', togglePlay);
+
+            document.getElementById('btn-next').addEventListener('click', nextTrack);
+            document.getElementById('btn-prev').addEventListener('click', prevTrack);
+            document.getElementById('bar-next').addEventListener('click', nextTrack);
+            document.getElementById('bar-prev').addEventListener('click', prevTrack);
+
+            const shuffleBtn = document.getElementById('btn-shuf');
+            shuffleBtn.addEventListener('click', function() {
+                isShuffle = !isShuffle;
+                this.classList.toggle('active-tog', isShuffle);
+            });
+
+            const repeatBtn = document.getElementById('btn-rep');
+            repeatBtn.addEventListener('click', function() {
+                isRepeat = !isRepeat;
+                this.classList.toggle('active-tog', isRepeat);
+            });
+
+            progTrack.addEventListener('click', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width;
+                aud.currentTime = x * (aud.duration || 0);
+            });
+
+            progTrack.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const rect = this.getBoundingClientRect();
+                const x = (touch.clientX - rect.left) / rect.width;
+                aud.currentTime = x * (aud.duration || 0);
+            }, { passive: false });
+
+            aud.volume = 0.8;
+            volInput.addEventListener('input', function() {
+                aud.volume = parseFloat(this.value);
+            });
+
+            // ============================================================
+            //  PWA - INSTALACIÓN
+            // ============================================================
+
+            function showInstallButtons() {
+                installBanner.style.display = 'flex';
+                installHeaderBtn.classList.add('show');
+            }
+
+            function hideInstallButtons() {
+                installBanner.style.display = 'none';
+                installHeaderBtn.classList.remove('show');
+            }
+
+            window.addEventListener('beforeinstallprompt', function(e) {
+                e.preventDefault();
+                deferredPrompt = e;
+                showInstallButtons();
+            });
+
+            async function installApp() {
+                if (!deferredPrompt) {
+                    alert('📲 Para instalar:\n1. Menú Chrome (⋮)\n2. "Agregar a pantalla de inicio"');
+                    return;
+                }
+                try {
+                    deferredPrompt.prompt();
+                    const result = await deferredPrompt.userChoice;
+                    if (result.outcome === 'accepted') {
+                        hideInstallButtons();
+                    }
+                } catch (err) {
+                    console.error('Error:', err);
+                }
+                deferredPrompt = null;
+            }
+
+            installBtn.addEventListener('click', installApp);
+            installHeaderBtn.addEventListener('click', installApp);
+
+            closeBanner.addEventListener('click', function() {
+                hideInstallButtons();
+            });
+
+            window.addEventListener('appinstalled', function() {
+                hideInstallButtons();
+                const notif = document.createElement('div');
+                notif.style.cssText = `
+                    position: fixed; bottom: 100px; left: 50%;
+                    transform: translateX(-50%);
+                    background: linear-gradient(135deg, var(--a1), var(--a2));
+                    color: #fff; padding: 12px 24px; border-radius: 12px;
+                    font-weight: 600; z-index: 999;
+                    box-shadow: 0 8px 32px rgba(124,58,237,0.4);
+                    max-width: 90%; text-align: center;
+                `;
+                notif.textContent = '✅ ¡App instalada correctamente! 🎉';
+                document.body.appendChild(notif);
+                setTimeout(() => {
+                    notif.style.opacity = '0';
+                    notif.style.transition = 'opacity 0.5s';
+                    setTimeout(() => notif.remove(), 500);
+                }, 3000);
+            });
+
+            // ============================================================
+            //  INICIALIZACIÓN
+            // ============================================================
+            function init() {
+                console.log('🎵 Ivan Beats PWA');
+
+                initVisualizer();
+                loadDurations();
+                updatePlayButtons(false);
+
+                if ('mediaSession' in navigator) {
+                    console.log('📱 Media Session API - Controles externos disponibles');
+                    updateMediaSession();
+                }
+
+                if (window.matchMedia('(display-mode: standalone)').matches) {
+                    hideInstallButtons();
+                }
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+
+            window.addEventListener('load', function() {
+                if (window.matchMedia('(display-mode: standalone)').matches) {
+                    hideInstallButtons();
+                }
+            });
+
+        })();
+    </script>
+
+</body>
+</html>
