@@ -587,17 +587,45 @@
             }
         }
 
+        /* ============================================================
+           CRÉDITOS ACTUALIZADOS CON INSTITUTO NACIONAL DE OSIALA
+           ============================================================ */
         .credits {
             text-align: center;
             padding: 24px 16px 8px;
             font-size: 0.66rem;
             color: var(--muted);
-            line-height: 1.6;
+            line-height: 1.8;
         }
 
-        .credits strong {
-            color: var(--a2);
+        .credits .dev {
             font-weight: 700;
+            background: linear-gradient(90deg, var(--a2), var(--a3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .credits .instituto {
+            display: block;
+            margin-top: 4px;
+            font-weight: 600;
+            color: var(--a3);
+            letter-spacing: 0.05em;
+            font-size: 0.7rem;
+        }
+
+        .credits .instituto span {
+            display: inline-block;
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            border-radius: 100px;
+            padding: 2px 12px;
+        }
+
+        .credits .separator {
+            color: var(--border);
+            margin: 0 4px;
         }
 
         #player-bar {
@@ -849,6 +877,11 @@
             .install-header-btn {
                 font-size: 0.6rem;
                 padding: 4px 10px;
+            }
+
+            .credits .instituto span {
+                font-size: 0.6rem;
+                padding: 1px 8px;
             }
         }
 
@@ -1126,10 +1159,17 @@
 
             </div>
 
+            <!-- ============================================================
+                 CRÉDITOS ACTUALIZADOS CON INSTITUTO NACIONAL DE OSIALA
+                 ============================================================ -->
             <div class="credits">
-                Hecho con ❤️ por <strong>Ivan Alberson Martinez</strong><br/>
-                Mini Spotify Personal · PWA · Funciona sin internet
+                Hecho con ❤️ por <span class="dev">Ivan Alberson Martinez</span>
+                <span class="separator">|</span>
+                <span class="instituto"><span>🏛️ Instituto Nacional De Osiala</span></span>
+                <br/>
+                <span style="font-size: 0.6rem; opacity: 0.6;">Mini Spotify Personal · PWA · Funciona sin internet</span>
             </div>
+
         </div>
 
         <div id="player-bar">
@@ -1154,7 +1194,7 @@
 
     <script>
         // ============================================================
-        //  IVAN BEATS - PWA COMPLETA CON CACHE PARA MODO OFFLINE
+        //  IVAN BEATS - PWA COMPLETA CON INSTITUTO NACIONAL DE OSIALA
         // ============================================================
 
         (function() {
@@ -1164,7 +1204,6 @@
             //  REGISTRAR SERVICE WORKER CON CACHE DE AUDIOS
             // ============================================================
             if ('serviceWorker' in navigator) {
-                // Lista completa de archivos a cachear
                 const FILES_TO_CACHE = [
                     '/',
                     '/index.html',
@@ -1183,7 +1222,7 @@
                 ];
 
                 const swCode = `
-                    const CACHE_NAME = 'ivan-beats-v4';
+                    const CACHE_NAME = 'ivan-beats-v5';
                     const urlsToCache = ${JSON.stringify(FILES_TO_CACHE)};
 
                     self.addEventListener('install', event => {
@@ -1220,7 +1259,6 @@
                                         return response;
                                     }
                                     return fetch(event.request).catch(() => {
-                                        // Si falla la red, intentar devolver algo
                                         return caches.match('/');
                                     });
                                 })
@@ -1231,7 +1269,7 @@
                 const swBlob = new Blob([swCode], { type: 'application/javascript' });
                 const swURL = URL.createObjectURL(swBlob);
                 navigator.serviceWorker.register(swURL)
-                    .then(() => console.log('✅ Service Worker registrado con cache de audios'))
+                    .then(() => console.log('✅ Service Worker registrado'))
                     .catch(err => console.warn('⚠️ Error SW:', err));
             }
 
