@@ -4,17 +4,17 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <meta name="theme-color" content="#0a0a14"/>
-    <meta name="description" content="Ivan Alberson Martinez — Mi Spotify Personal PWA"/>
+    <meta name="description" content="Ivan Alberson Martinez — Instituto Nacional De Osiala"/>
     <meta name="mobile-web-app-capable" content="yes"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
     
-    <!-- Manifest inline -->
+    <!-- MANIFEST INYECTADO -->
     <script>
         const manifest = {
-            name: "Ivan Beats - Mi Spotify Personal",
+            name: "Ivan Beats - Instituto Nacional De Osiala",
             short_name: "Ivan Beats",
-            description: "Reproductor de música personal de Ivan Alberson Martinez. Funciona sin internet.",
+            description: "Reproductor de música personal de Ivan Alberson Martinez - Instituto Nacional De Osiala",
             start_url: "/",
             scope: "/",
             display: "standalone",
@@ -588,14 +588,16 @@
         }
 
         /* ============================================================
-           CRÉDITOS ACTUALIZADOS CON INSTITUTO NACIONAL DE OSIALA
+           CRÉDITOS - INSTITUTO NACIONAL DE OSIALA
            ============================================================ */
         .credits {
             text-align: center;
-            padding: 24px 16px 8px;
-            font-size: 0.66rem;
+            padding: 24px 16px 12px;
+            font-size: 0.7rem;
             color: var(--muted);
-            line-height: 1.8;
+            line-height: 2;
+            border-top: 1px solid var(--border);
+            margin-top: 4px;
         }
 
         .credits .dev {
@@ -607,25 +609,28 @@
         }
 
         .credits .instituto {
-            display: block;
-            margin-top: 4px;
-            font-weight: 600;
-            color: var(--a3);
-            letter-spacing: 0.05em;
-            font-size: 0.7rem;
-        }
-
-        .credits .instituto span {
             display: inline-block;
-            background: rgba(6, 182, 212, 0.1);
-            border: 1px solid rgba(6, 182, 212, 0.2);
+            font-weight: 700;
+            color: var(--a3);
+            background: rgba(6, 182, 212, 0.08);
+            border: 1px solid rgba(6, 182, 212, 0.15);
             border-radius: 100px;
-            padding: 2px 12px;
+            padding: 2px 14px;
+            font-size: 0.7rem;
+            letter-spacing: 0.05em;
         }
 
         .credits .separator {
             color: var(--border);
-            margin: 0 4px;
+            margin: 0 6px;
+        }
+
+        .credits .sub {
+            display: block;
+            font-size: 0.6rem;
+            opacity: 0.5;
+            margin-top: 2px;
+            letter-spacing: 0.08em;
         }
 
         #player-bar {
@@ -879,9 +884,15 @@
                 padding: 4px 10px;
             }
 
-            .credits .instituto span {
+            .credits {
                 font-size: 0.6rem;
-                padding: 1px 8px;
+                padding: 16px 12px 8px;
+                line-height: 1.8;
+            }
+
+            .credits .instituto {
+                font-size: 0.6rem;
+                padding: 1px 10px;
             }
         }
 
@@ -1160,14 +1171,15 @@
             </div>
 
             <!-- ============================================================
-                 CRÉDITOS ACTUALIZADOS CON INSTITUTO NACIONAL DE OSIALA
+                 CRÉDITOS - INSTITUTO NACIONAL DE OSIALA
                  ============================================================ -->
             <div class="credits">
-                Hecho con ❤️ por <span class="dev">Ivan Alberson Martinez</span>
-                <span class="separator">|</span>
-                <span class="instituto"><span>🏛️ Instituto Nacional De Osiala</span></span>
-                <br/>
-                <span style="font-size: 0.6rem; opacity: 0.6;">Mini Spotify Personal · PWA · Funciona sin internet</span>
+                <div>
+                    Hecho con ❤️ por <span class="dev">Ivan Alberson Martinez</span>
+                    <span class="separator">|</span>
+                    <span class="instituto">🏛️ Instituto Nacional De Osiala</span>
+                </div>
+                <span class="sub">Mini Spotify Personal · PWA · Funciona sin internet</span>
             </div>
 
         </div>
@@ -1194,14 +1206,14 @@
 
     <script>
         // ============================================================
-        //  IVAN BEATS - PWA COMPLETA CON INSTITUTO NACIONAL DE OSIALA
+        //  IVAN BEATS - INSTITUTO NACIONAL DE OSIALA
         // ============================================================
 
         (function() {
             'use strict';
 
             // ============================================================
-            //  REGISTRAR SERVICE WORKER CON CACHE DE AUDIOS
+            //  SERVICE WORKER CON CACHE
             // ============================================================
             if ('serviceWorker' in navigator) {
                 const FILES_TO_CACHE = [
@@ -1222,7 +1234,7 @@
                 ];
 
                 const swCode = `
-                    const CACHE_NAME = 'ivan-beats-v5';
+                    const CACHE_NAME = 'ivan-beats-v6';
                     const urlsToCache = ${JSON.stringify(FILES_TO_CACHE)};
 
                     self.addEventListener('install', event => {
@@ -1377,7 +1389,7 @@
                 const metadata = new MediaMetadata({
                     title: track.title,
                     artist: track.artist,
-                    album: 'Ivan Beats',
+                    album: 'Ivan Beats - Instituto Nacional De Osiala',
                     artwork: [
                         { src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">' + track.emoji + '</text></svg>', sizes: '512x512' }
                     ]
