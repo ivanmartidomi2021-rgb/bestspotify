@@ -812,7 +812,135 @@
 
             <div class="sec-label">🎵 Tu Playlist</div>
             <div id="tracklist">
-                <!-- Las canciones se generan con JavaScript -->
+                <!-- CANCIONES CON RUTAS CORRECTAS -->
+                <div class="track" data-file="audio/Simpons.mp3" data-title="Los Simpson" data-emoji="🎤">
+                    <div class="t-icon">
+                        <span class="t-emoji">🎤</span>
+                        <div class="eq">
+                            <div class="eq-b" style="height:6px"></div>
+                            <div class="eq-b" style="height:10px"></div>
+                            <div class="eq-b" style="height:4px"></div>
+                        </div>
+                    </div>
+                    <div class="t-info">
+                        <h3>Los Simpson</h3>
+                        <p>Ivan Alberson Martinez</p>
+                    </div>
+                    <div class="t-dur">—:——</div>
+                </div>
+
+                <div class="track" data-file="audio/Tattoo.mp3" data-title="Tattoo" data-emoji="🎵">
+                    <div class="t-icon">
+                        <span class="t-emoji">🎵</span>
+                        <div class="eq">
+                            <div class="eq-b" style="height:6px"></div>
+                            <div class="eq-b" style="height:10px"></div>
+                            <div class="eq-b" style="height:4px"></div>
+                        </div>
+                    </div>
+                    <div class="t-info">
+                        <h3>Tattoo</h3>
+                        <p>Ivan Alberson Martinez</p>
+                    </div>
+                    <div class="t-dur">—:——</div>
+                </div>
+
+                <div class="track" data-file="audio/Tu_boda.mp3" data-title="Tu Boda" data-emoji="💍">
+                    <div class="t-icon">
+                        <span class="t-emoji">💍</span>
+                        <div class="eq">
+                            <div class="eq-b" style="height:6px"></div>
+                            <div class="eq-b" style="height:10px"></div>
+                            <div class="eq-b" style="height:4px"></div>
+                        </div>
+                    </div>
+                    <div class="t-info">
+                        <h3>Tu Boda</h3>
+                        <p>Ivan Alberson Martinez</p>
+                    </div>
+                    <div class="t-dur">—:——</div>
+                </div>
+
+                <!-- ✅ CORREGIDO: Tu_y_Yo.mp3 (con mayúscula Y) -->
+                <div class="track" data-file="audio/Tu_y_Yo.mp3" data-title="Tu y Yo" data-emoji="🎶">
+                    <div class="t-icon">
+                        <span class="t-emoji">🎶</span>
+                        <div class="eq">
+                            <div class="eq-b" style="height:6px"></div>
+                            <div class="eq-b" style="height:10px"></div>
+                            <div class="eq-b" style="height:4px"></div>
+                        </div>
+                    </div>
+                    <div class="t-info">
+                        <h3>Tu y Yo</h3>
+                        <p>Ivan Alberson Martinez</p>
+                    </div>
+                    <div class="t-dur">—:——</div>
+                </div>
+
+                <div class="track" data-file="audio/UNA_CERVEZA.mp3" data-title="Una Cerveza" data-emoji="🍺">
+                    <div class="t-icon">
+                        <span class="t-emoji">🍺</span>
+                        <div class="eq">
+                            <div class="eq-b" style="height:6px"></div>
+                            <div class="eq-b" style="height:10px"></div>
+                            <div class="eq-b" style="height:4px"></div>
+                        </div>
+                    </div>
+                    <div class="t-info">
+                        <h3>Una Cerveza</h3>
+                        <p>Ivan Alberson Martinez</p>
+                    </div>
+                    <div class="t-dur">—:——</div>
+                </div>
+
+                <div class="track" data-file="audio/escapate.mp3" data-title="Escápate" data-emoji="🏃">
+                    <div class="t-icon">
+                        <span class="t-emoji">🏃</span>
+                        <div class="eq">
+                            <div class="eq-b" style="height:6px"></div>
+                            <div class="eq-b" style="height:10px"></div>
+                            <div class="eq-b" style="height:4px"></div>
+                        </div>
+                    </div>
+                    <div class="t-info">
+                        <h3>Escápate</h3>
+                        <p>Ivan Alberson Martinez</p>
+                    </div>
+                    <div class="t-dur">—:——</div>
+                </div>
+
+                <div class="track" data-file="audio/vete_ya.mp3" data-title="Vete Ya" data-emoji="👋">
+                    <div class="t-icon">
+                        <span class="t-emoji">👋</span>
+                        <div class="eq">
+                            <div class="eq-b" style="height:6px"></div>
+                            <div class="eq-b" style="height:10px"></div>
+                            <div class="eq-b" style="height:4px"></div>
+                        </div>
+                    </div>
+                    <div class="t-info">
+                        <h3>Vete Ya</h3>
+                        <p>Ivan Alberson Martinez</p>
+                    </div>
+                    <div class="t-dur">—:——</div>
+                </div>
+
+                <div class="track" data-file="audio/vss.mp3" data-title="VSS" data-emoji="🎧">
+                    <div class="t-icon">
+                        <span class="t-emoji">🎧</span>
+                        <div class="eq">
+                            <div class="eq-b" style="height:6px"></div>
+                            <div class="eq-b" style="height:10px"></div>
+                            <div class="eq-b" style="height:4px"></div>
+                        </div>
+                    </div>
+                    <div class="t-info">
+                        <h3>VSS</h3>
+                        <p>Ivan Alberson Martinez</p>
+                    </div>
+                    <div class="t-dur">—:——</div>
+                </div>
             </div>
 
             <div class="credits">
@@ -844,88 +972,26 @@
     <script>
         // ============================================================
         //  IVAN BEATS - REPRODUCTOR PWA
-        //  CON DETECCIÓN AUTOMÁTICA DE RUTAS DE AUDIOS
+        //  VERSIÓN DEFINITIVA - CON RUTAS CORRECTAS
         // ============================================================
 
         (function() {
             'use strict';
 
             // ============================================================
-            //  LISTA DE CANCIONES (SOLO NOMBRES DE ARCHIVO)
+            //  ESTADO
             // ============================================================
-            const SONG_FILES = [
-                { file: 'Simpons.mp3', title: 'Los Simpson', emoji: '🎤' },
-                { file: 'Tattoo.mp3', title: 'Tattoo', emoji: '🎵' },
-                { file: 'Tu_boda.mp3', title: 'Tu Boda', emoji: '💍' },
-                { file: 'Tu_y_No.mp3', title: 'Tu y Yo', emoji: '🎶' },
-                { file: 'UNA_CERVEZA.mp3', title: 'Una Cerveza', emoji: '🍺' },
-                { file: 'escapate.mp3', title: 'Escápate', emoji: '🏃' },
-                { file: 'vete_ya.mp3', title: 'Vete Ya', emoji: '👋' },
-                { file: 'vss.mp3', title: 'VSS', emoji: '🎧' }
-            ];
-
-            // ============================================================
-            //  DETECCIÓN AUTOMÁTICA DE RUTA BASE
-            // ============================================================
-            function findAudioPath() {
-                // Posibles rutas donde pueden estar los audios
-                const possiblePaths = [
-                    '/audio/',
-                    '/music/audio/',
-                    '/static/audio/',
-                    '/assets/audio/',
-                    './audio/',
-                    '../audio/',
-                    '/'
-                ];
-
-                // Usamos la primera canción para probar
-                const testFile = SONG_FILES[0].file;
-
-                // Función para probar una ruta
-                function testPath(path) {
-                    const url = path + testFile;
-                    return fetch(url, { method: 'HEAD' })
-                        .then(res => {
-                            if (res.ok) {
-                                return path;
-                            }
-                            return null;
-                        })
-                        .catch(() => null);
-                }
-
-                // Probar todas las rutas en paralelo
-                return Promise.all(possiblePaths.map(p => testPath(p)))
-                    .then(results => {
-                        const found = results.find(r => r !== null);
-                        if (found) {
-                            console.log('✅ Audios encontrados en:', found);
-                            return found;
-                        }
-                        // Si no encuentra, usar /audio/ como predeterminado
-                        console.warn('⚠️ No se encontraron audios, usando /audio/');
-                        return '/audio/';
-                    });
-            }
-
-            // ============================================================
-            //  ESTADO DE LA APP
-            // ============================================================
-            let AUDIO_PATH = '/audio/'; // Se actualizará después
             let currentIndex = -1;
             let isPlaying = false;
             let isShuffle = false;
             let isRepeat = false;
-            let audioLoaded = false;
 
             // ============================================================
             //  ELEMENTOS DOM
             // ============================================================
             const aud = document.getElementById('aud');
-            const tracklist = document.getElementById('tracklist');
+            const tracks = Array.from(document.querySelectorAll('.track'));
             const heroTitle = document.getElementById('hero-title');
-            const heroArtist = document.getElementById('hero-artist');
             const heroDisc = document.getElementById('hero-disc');
             const barThumb = document.getElementById('bar-thumb');
             const barTitle = document.getElementById('bar-title');
@@ -936,44 +1002,6 @@
             const barPlayBtn = document.getElementById('bar-play');
             const volInput = document.getElementById('vol');
             const progTrack = document.getElementById('prog-track');
-
-            // ============================================================
-            //  CREAR LISTA DE CANCIONES
-            // ============================================================
-            function createTrackList() {
-                tracklist.innerHTML = '';
-                SONG_FILES.forEach((song, index) => {
-                    const div = document.createElement('div');
-                    div.className = 'track';
-                    div.dataset.index = index;
-                    div.dataset.file = song.file;
-                    div.dataset.title = song.title;
-                    div.dataset.emoji = song.emoji;
-
-                    div.innerHTML = `
-                        <div class="t-icon">
-                            <span class="t-emoji">${song.emoji}</span>
-                            <div class="eq">
-                                <div class="eq-b" style="height:6px"></div>
-                                <div class="eq-b" style="height:10px"></div>
-                                <div class="eq-b" style="height:4px"></div>
-                            </div>
-                        </div>
-                        <div class="t-info">
-                            <h3>${song.title}</h3>
-                            <p>Ivan Alberson Martinez</p>
-                        </div>
-                        <div class="t-dur">—:——</div>
-                    `;
-
-                    div.addEventListener('click', function() {
-                        const idx = parseInt(this.dataset.index);
-                        loadTrack(idx, true);
-                    });
-
-                    tracklist.appendChild(div);
-                });
-            }
 
             // ============================================================
             //  VISUALIZADOR
@@ -1022,15 +1050,36 @@
                 return m + ':' + String(s).padStart(2, '0');
             }
 
-            function getTrackElements() {
-                return Array.from(document.querySelectorAll('.track'));
+            // ============================================================
+            //  CARGAR DURACIONES
+            // ============================================================
+            function loadDurations() {
+                tracks.forEach(el => {
+                    const file = el.dataset.file;
+                    if (!file) return;
+                    const a = new Audio();
+                    a.preload = 'metadata';
+                    a.src = file;
+                    a.addEventListener('loadedmetadata', function() {
+                        const durEl = el.querySelector('.t-dur');
+                        if (durEl) {
+                            durEl.textContent = formatTime(this.duration);
+                        }
+                    });
+                    a.addEventListener('error', function() {
+                        const durEl = el.querySelector('.t-dur');
+                        if (durEl) {
+                            durEl.textContent = '⚠️';
+                        }
+                        console.warn('⚠️ No se pudo cargar:', file);
+                    });
+                });
             }
 
             // ============================================================
             //  REPRODUCCIÓN
             // ============================================================
             function loadTrack(index, autoPlay = false) {
-                const tracks = getTrackElements();
                 if (index < 0 || index >= tracks.length) return;
 
                 const el = tracks[index];
@@ -1040,20 +1089,16 @@
 
                 currentIndex = index;
 
-                // Construir URL completa
-                const url = AUDIO_PATH + file;
-                console.log('🎵 Cargando:', url);
+                console.log('🎵 Cargando:', file);
 
-                aud.src = url;
+                aud.src = file;
                 aud.load();
 
-                // Actualizar UI
                 heroTitle.textContent = title;
                 heroDisc.textContent = emoji;
                 barThumb.textContent = emoji;
                 barTitle.textContent = title;
 
-                // Resaltar track activo
                 tracks.forEach((t, i) => {
                     t.classList.toggle('active', i === index);
                 });
@@ -1078,26 +1123,10 @@
                         console.log('▶ Reproduciendo');
                     })
                     .catch(err => {
-                        console.error('❌ Error al reproducir:', err);
-                        console.log('URL intentada:', aud.src);
-
-                        // Intentar con ruta alternativa
-                        const tracks = getTrackElements();
-                        if (currentIndex >= 0 && currentIndex < tracks.length) {
-                            const el = tracks[currentIndex];
-                            const file = el.dataset.file;
-                            // Probar con /music/audio/
-                            const altUrl = '/music/audio/' + file;
-                            console.log('🔄 Intentando ruta alternativa:', altUrl);
-                            aud.src = altUrl;
-                            aud.load();
-                            aud.play().catch(e => {
-                                console.error('❌ También falló:', e);
-                                alert('❌ No se puede reproducir el audio.\n\n' +
-                                    'El archivo no se encuentra en ninguna ruta conocida.\n\n' +
-                                    'Verifica que los MP3 estén en la carpeta "audio"');
-                            });
-                        }
+                        console.error('❌ Error:', err);
+                        alert('❌ No se puede reproducir el audio.\n\n' +
+                            'URL: ' + aud.src + '\n\n' +
+                            'Verifica que los archivos MP3 estén en la carpeta /audio/');
                     });
             }
 
@@ -1123,7 +1152,6 @@
             }
 
             function nextTrack() {
-                const tracks = getTrackElements();
                 if (tracks.length === 0) return;
                 let nextIdx;
                 if (isShuffle) {
@@ -1137,7 +1165,6 @@
             }
 
             function prevTrack() {
-                const tracks = getTrackElements();
                 if (tracks.length === 0) return;
                 if (aud.currentTime > 3) {
                     aud.currentTime = 0;
@@ -1181,17 +1208,14 @@
             // ============================================================
             //  CONTROLES
             // ============================================================
-            // Play/Pause
             heroPlayBtn.addEventListener('click', togglePlay);
             barPlayBtn.addEventListener('click', togglePlay);
 
-            // Navegación
             document.getElementById('btn-next').addEventListener('click', nextTrack);
             document.getElementById('btn-prev').addEventListener('click', prevTrack);
             document.getElementById('bar-next').addEventListener('click', nextTrack);
             document.getElementById('bar-prev').addEventListener('click', prevTrack);
 
-            // Shuffle
             const shuffleBtn = document.getElementById('btn-shuf');
             shuffleBtn.addEventListener('click', function() {
                 isShuffle = !isShuffle;
@@ -1199,7 +1223,6 @@
                 console.log('🔀 Shuffle:', isShuffle ? 'ON' : 'OFF');
             });
 
-            // Repeat
             const repeatBtn = document.getElementById('btn-rep');
             repeatBtn.addEventListener('click', function() {
                 isRepeat = !isRepeat;
@@ -1207,7 +1230,6 @@
                 console.log('🔁 Repeat:', isRepeat ? 'ON' : 'OFF');
             });
 
-            // Progreso
             progTrack.addEventListener('click', function(e) {
                 const rect = this.getBoundingClientRect();
                 const x = (e.clientX - rect.left) / rect.width;
@@ -1222,7 +1244,6 @@
                 aud.currentTime = x * (aud.duration || 0);
             }, { passive: false });
 
-            // Volumen
             aud.volume = 0.8;
             volInput.addEventListener('input', function() {
                 aud.volume = parseFloat(this.value);
@@ -1257,7 +1278,7 @@
                 e.preventDefault();
                 deferredPrompt = e;
                 installBanner.style.display = 'flex';
-                console.log('📲 Evento beforeinstallprompt detectado');
+                console.log('📲 Instalación disponible');
             });
 
             installBtn.addEventListener('click', async function() {
@@ -1270,7 +1291,7 @@
                         installBanner.style.display = 'none';
                     }
                 } catch (err) {
-                    console.error('❌ Error en instalación:', err);
+                    console.error('❌ Error:', err);
                 }
                 deferredPrompt = null;
             });
@@ -1285,64 +1306,26 @@
             // ============================================================
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('/sw.js')
-                    .then(function(reg) {
-                        console.log('✅ Service Worker registrado');
-                    })
-                    .catch(function(err) {
-                        console.warn('⚠️ Error al registrar SW:', err);
-                    });
+                    .then(() => console.log('✅ Service Worker registrado'))
+                    .catch(err => console.warn('⚠️ Error SW:', err));
             }
 
             // ============================================================
             //  INICIALIZACIÓN
             // ============================================================
-            async function init() {
+            function init() {
                 console.log('🎵 Ivan Beats PWA - Iniciando...');
 
-                // 1. Crear lista de canciones
-                createTrackList();
-
-                // 2. Inicializar visualizador
                 initVisualizer();
-
-                // 3. Detectar ruta de audios automáticamente
-                console.log('🔍 Buscando audios...');
-                AUDIO_PATH = await findAudioPath();
-                console.log('📁 Ruta de audios:', AUDIO_PATH);
-
-                // 4. Cargar duraciones
-                const tracks = getTrackElements();
-                tracks.forEach(el => {
-                    const file = el.dataset.file;
-                    if (!file) return;
-                    const a = new Audio();
-                    a.preload = 'metadata';
-                    a.src = AUDIO_PATH + file;
-                    a.addEventListener('loadedmetadata', function() {
-                        const durEl = el.querySelector('.t-dur');
-                        if (durEl) {
-                            durEl.textContent = formatTime(this.duration);
-                        }
-                    });
-                    a.addEventListener('error', function() {
-                        const durEl = el.querySelector('.t-dur');
-                        if (durEl) {
-                            durEl.textContent = '⚠️';
-                        }
-                        console.warn('⚠️ No se pudo cargar:', file);
-                    });
-                });
-
-                // 5. Estado inicial
+                loadDurations();
                 updatePlayButtons(false);
 
-                console.log('✅ Ivan Beats PVA listo!');
-                console.log('📁 Ruta de audio:', AUDIO_PATH);
-                console.log('🎵 Canciones:', SONG_FILES.length);
+                console.log('✅ Ivan Beats PWA listo!');
+                console.log('🎵 Canciones:', tracks.length);
 
-                // 6. Verificar primer audio
+                // Verificar primer audio
                 if (tracks.length > 0) {
-                    const testUrl = AUDIO_PATH + tracks[0].dataset.file;
+                    const testUrl = tracks[0].dataset.file;
                     fetch(testUrl, { method: 'HEAD' })
                         .then(res => {
                             if (res.ok) {
@@ -1351,13 +1334,10 @@
                                 console.warn('⚠️ Audio de prueba NO encontrado:', testUrl);
                             }
                         })
-                        .catch(() => {
-                            console.warn('⚠️ No se pudo verificar audio');
-                        });
+                        .catch(() => console.warn('⚠️ No se pudo verificar audio'));
                 }
             }
 
-            // Iniciar cuando el DOM esté listo
             if (document.readyState === 'loading') {
                 document.addEventListener('DOMContentLoaded', init);
             } else {
