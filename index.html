@@ -13,10 +13,8 @@
     <title>Ivan Beats 🎵</title>
 
     <style>
-        /* ===== FUENTE ===== */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
 
-        /* ===== VARIABLES ===== */
         :root {
             --bg: #0a0a14;
             --surface: #12121f;
@@ -32,7 +30,6 @@
             --safe-bottom: env(safe-area-inset-bottom, 0px);
         }
 
-        /* ===== RESET ===== */
         *,
         *::before,
         *::after {
@@ -52,7 +49,6 @@
             user-select: none;
         }
 
-        /* ===== APP ===== */
         #app {
             display: grid;
             grid-template-rows: 1fr var(--bar-h);
@@ -81,7 +77,6 @@
             border-radius: 4px;
         }
 
-        /* ===== HEADER ===== */
         header {
             position: sticky;
             top: 0;
@@ -146,7 +141,6 @@
             white-space: nowrap;
         }
 
-        /* ===== INSTALL BANNER ===== */
         #install-banner {
             display: none;
             margin: 0 14px 14px;
@@ -181,7 +175,6 @@
             transform: scale(0.95);
         }
 
-        /* ===== HERO ===== */
         #hero {
             margin: 0 14px 20px;
             border-radius: 20px;
@@ -260,7 +253,6 @@
             margin-bottom: 16px;
         }
 
-        /* ===== VISUALIZER ===== */
         #viz {
             display: flex;
             align-items: flex-end;
@@ -282,7 +274,6 @@
             opacity: 1;
         }
 
-        /* ===== PROGRESS ===== */
         #prog-track {
             width: 100%;
             height: 4px;
@@ -310,7 +301,6 @@
             margin-bottom: 14px;
         }
 
-        /* ===== CONTROLS ===== */
         .hctrl {
             display: flex;
             align-items: center;
@@ -365,7 +355,6 @@
             transform: scale(0.92);
         }
 
-        /* ===== TRACK LIST ===== */
         .sec-label {
             padding: 0 18px 10px;
             font-size: 0.68rem;
@@ -460,7 +449,6 @@
             flex-shrink: 0;
         }
 
-        /* ===== EQ ANIMATION ===== */
         .eq {
             display: none;
             gap: 2px;
@@ -501,7 +489,6 @@
             }
         }
 
-        /* ===== CREDITS ===== */
         .credits {
             text-align: center;
             padding: 24px 16px 8px;
@@ -515,7 +502,6 @@
             font-weight: 700;
         }
 
-        /* ===== BOTTOM BAR ===== */
         #player-bar {
             background: rgba(18, 18, 31, 0.96);
             backdrop-filter: blur(20px);
@@ -651,7 +637,6 @@
             cursor: pointer;
         }
 
-        /* ===== RESPONSIVE ===== */
         @media (max-width: 480px) {
             header {
                 padding: 18px 16px 10px;
@@ -774,7 +759,6 @@
             }
         }
 
-        /* ===== ANDROID SAFE AREA ===== */
         @supports (padding: max(0px)) {
             #app {
                 padding-bottom: max(env(safe-area-inset-bottom), 0px);
@@ -787,7 +771,6 @@
     <div id="app">
         <div id="main">
 
-            <!-- HEADER -->
             <header>
                 <div class="logo">🎧</div>
                 <div class="logo-text">
@@ -797,13 +780,11 @@
                 <div class="pwa-pill">📱 OFFLINE</div>
             </header>
 
-            <!-- INSTALL BANNER -->
             <div id="install-banner">
                 <span>📲 Instala la app para usarla sin internet</span>
                 <button id="install-btn">Instalar</button>
             </div>
 
-            <!-- HERO PLAYER -->
             <div id="hero">
                 <div class="hero-label">▶ Reproduciendo ahora</div>
                 <div id="hero-disc">🎵</div>
@@ -829,147 +810,17 @@
                 </div>
             </div>
 
-            <!-- TRACK LIST -->
             <div class="sec-label">🎵 Tu Playlist</div>
             <div id="tracklist">
-                <!-- Canciones hardcodeadas -->
-                <div class="track" data-file="/audio/Simpons.mp3" data-title="Los Simpson" data-emoji="🎤">
-                    <div class="t-icon">
-                        <span class="t-emoji">🎤</span>
-                        <div class="eq">
-                            <div class="eq-b" style="height:6px"></div>
-                            <div class="eq-b" style="height:10px"></div>
-                            <div class="eq-b" style="height:4px"></div>
-                        </div>
-                    </div>
-                    <div class="t-info">
-                        <h3>Los Simpson</h3>
-                        <p>Ivan Alberson Martinez</p>
-                    </div>
-                    <div class="t-dur">—:——</div>
-                </div>
-
-                <div class="track" data-file="/audio/Tattoo.mp3" data-title="Tattoo" data-emoji="🎵">
-                    <div class="t-icon">
-                        <span class="t-emoji">🎵</span>
-                        <div class="eq">
-                            <div class="eq-b" style="height:6px"></div>
-                            <div class="eq-b" style="height:10px"></div>
-                            <div class="eq-b" style="height:4px"></div>
-                        </div>
-                    </div>
-                    <div class="t-info">
-                        <h3>Tattoo</h3>
-                        <p>Ivan Alberson Martinez</p>
-                    </div>
-                    <div class="t-dur">—:——</div>
-                </div>
-
-                <div class="track" data-file="/audio/Tu_boda.mp3" data-title="Tu Boda" data-emoji="💍">
-                    <div class="t-icon">
-                        <span class="t-emoji">💍</span>
-                        <div class="eq">
-                            <div class="eq-b" style="height:6px"></div>
-                            <div class="eq-b" style="height:10px"></div>
-                            <div class="eq-b" style="height:4px"></div>
-                        </div>
-                    </div>
-                    <div class="t-info">
-                        <h3>Tu Boda</h3>
-                        <p>Ivan Alberson Martinez</p>
-                    </div>
-                    <div class="t-dur">—:——</div>
-                </div>
-
-                <div class="track" data-file="/audio/Tu_y_No.mp3" data-title="Tu y Yo" data-emoji="🎶">
-                    <div class="t-icon">
-                        <span class="t-emoji">🎶</span>
-                        <div class="eq">
-                            <div class="eq-b" style="height:6px"></div>
-                            <div class="eq-b" style="height:10px"></div>
-                            <div class="eq-b" style="height:4px"></div>
-                        </div>
-                    </div>
-                    <div class="t-info">
-                        <h3>Tu y Yo</h3>
-                        <p>Ivan Alberson Martinez</p>
-                    </div>
-                    <div class="t-dur">—:——</div>
-                </div>
-
-                <div class="track" data-file="/audio/UNA_CERVEZA.mp3" data-title="Una Cerveza" data-emoji="🍺">
-                    <div class="t-icon">
-                        <span class="t-emoji">🍺</span>
-                        <div class="eq">
-                            <div class="eq-b" style="height:6px"></div>
-                            <div class="eq-b" style="height:10px"></div>
-                            <div class="eq-b" style="height:4px"></div>
-                        </div>
-                    </div>
-                    <div class="t-info">
-                        <h3>Una Cerveza</h3>
-                        <p>Ivan Alberson Martinez</p>
-                    </div>
-                    <div class="t-dur">—:——</div>
-                </div>
-
-                <div class="track" data-file="/audio/escapate.mp3" data-title="Escápate" data-emoji="🏃">
-                    <div class="t-icon">
-                        <span class="t-emoji">🏃</span>
-                        <div class="eq">
-                            <div class="eq-b" style="height:6px"></div>
-                            <div class="eq-b" style="height:10px"></div>
-                            <div class="eq-b" style="height:4px"></div>
-                        </div>
-                    </div>
-                    <div class="t-info">
-                        <h3>Escápate</h3>
-                        <p>Ivan Alberson Martinez</p>
-                    </div>
-                    <div class="t-dur">—:——</div>
-                </div>
-
-                <div class="track" data-file="/audio/vete_ya.mp3" data-title="Vete Ya" data-emoji="👋">
-                    <div class="t-icon">
-                        <span class="t-emoji">👋</span>
-                        <div class="eq">
-                            <div class="eq-b" style="height:6px"></div>
-                            <div class="eq-b" style="height:10px"></div>
-                            <div class="eq-b" style="height:4px"></div>
-                        </div>
-                    </div>
-                    <div class="t-info">
-                        <h3>Vete Ya</h3>
-                        <p>Ivan Alberson Martinez</p>
-                    </div>
-                    <div class="t-dur">—:——</div>
-                </div>
-
-                <div class="track" data-file="/audio/vss.mp3" data-title="VSS" data-emoji="🎧">
-                    <div class="t-icon">
-                        <span class="t-emoji">🎧</span>
-                        <div class="eq">
-                            <div class="eq-b" style="height:6px"></div>
-                            <div class="eq-b" style="height:10px"></div>
-                            <div class="eq-b" style="height:4px"></div>
-                        </div>
-                    </div>
-                    <div class="t-info">
-                        <h3>VSS</h3>
-                        <p>Ivan Alberson Martinez</p>
-                    </div>
-                    <div class="t-dur">—:——</div>
-                </div>
+                <!-- Las canciones se generan con JavaScript -->
             </div>
 
-            <!-- CREDITS -->
             <div class="credits">
                 Hecho con ❤️ por <strong>Ivan Alberson Martinez</strong><br/>
                 Mini Spotify Personal · PWA · Funciona sin internet
             </div>
         </div>
 
-        <!-- BOTTOM PLAYER BAR -->
         <div id="player-bar">
             <div class="bar-thumb" id="bar-thumb">🎵</div>
             <div class="bar-info">
@@ -988,51 +839,91 @@
         </div>
     </div>
 
-    <!-- AUDIO ELEMENT -->
     <audio id="aud" preload="metadata"></audio>
 
-    <!-- ============================================================ -->
-    <!-- JAVASCRIPT - TODO EL CÓDIGO DE LA APP                        -->
-    <!-- ============================================================ -->
     <script>
+        // ============================================================
+        //  IVAN BEATS - REPRODUCTOR PWA
+        //  CON DETECCIÓN AUTOMÁTICA DE RUTAS DE AUDIOS
+        // ============================================================
+
         (function() {
             'use strict';
 
             // ============================================================
-            //  CONFIGURACIÓN
+            //  LISTA DE CANCIONES (SOLO NOMBRES DE ARCHIVO)
             // ============================================================
-            const DEBUG = true; // Activa logs en consola
+            const SONG_FILES = [
+                { file: 'Simpons.mp3', title: 'Los Simpson', emoji: '🎤' },
+                { file: 'Tattoo.mp3', title: 'Tattoo', emoji: '🎵' },
+                { file: 'Tu_boda.mp3', title: 'Tu Boda', emoji: '💍' },
+                { file: 'Tu_y_No.mp3', title: 'Tu y Yo', emoji: '🎶' },
+                { file: 'UNA_CERVEZA.mp3', title: 'Una Cerveza', emoji: '🍺' },
+                { file: 'escapate.mp3', title: 'Escápate', emoji: '🏃' },
+                { file: 'vete_ya.mp3', title: 'Vete Ya', emoji: '👋' },
+                { file: 'vss.mp3', title: 'VSS', emoji: '🎧' }
+            ];
 
             // ============================================================
-            //  DETECCIÓN DE RUTA BASE
+            //  DETECCIÓN AUTOMÁTICA DE RUTA BASE
             // ============================================================
-            function getBasePath() {
-                const path = window.location.pathname;
-                // Si estamos en /music/ o similar, usamos / como base
-                if (path.includes('/music/')) {
-                    return '/';
+            function findAudioPath() {
+                // Posibles rutas donde pueden estar los audios
+                const possiblePaths = [
+                    '/audio/',
+                    '/music/audio/',
+                    '/static/audio/',
+                    '/assets/audio/',
+                    './audio/',
+                    '../audio/',
+                    '/'
+                ];
+
+                // Usamos la primera canción para probar
+                const testFile = SONG_FILES[0].file;
+
+                // Función para probar una ruta
+                function testPath(path) {
+                    const url = path + testFile;
+                    return fetch(url, { method: 'HEAD' })
+                        .then(res => {
+                            if (res.ok) {
+                                return path;
+                            }
+                            return null;
+                        })
+                        .catch(() => null);
                 }
-                // Si estamos en la raíz
-                if (path === '/' || path === '/index.html') {
-                    return '/';
-                }
-                // Si estamos en una subcarpeta, subimos un nivel
-                const parts = path.split('/').filter(p => p.length > 0);
-                if (parts.length > 0) {
-                    return '/' + parts.slice(0, -1).join('/') + '/';
-                }
-                return '/';
+
+                // Probar todas las rutas en paralelo
+                return Promise.all(possiblePaths.map(p => testPath(p)))
+                    .then(results => {
+                        const found = results.find(r => r !== null);
+                        if (found) {
+                            console.log('✅ Audios encontrados en:', found);
+                            return found;
+                        }
+                        // Si no encuentra, usar /audio/ como predeterminado
+                        console.warn('⚠️ No se encontraron audios, usando /audio/');
+                        return '/audio/';
+                    });
             }
 
-            const BASE_URL = getBasePath();
-            if (DEBUG) console.log('📁 Base URL:', BASE_URL);
+            // ============================================================
+            //  ESTADO DE LA APP
+            // ============================================================
+            let AUDIO_PATH = '/audio/'; // Se actualizará después
+            let currentIndex = -1;
+            let isPlaying = false;
+            let isShuffle = false;
+            let isRepeat = false;
+            let audioLoaded = false;
 
             // ============================================================
             //  ELEMENTOS DOM
             // ============================================================
             const aud = document.getElementById('aud');
-            const tracks = Array.from(document.querySelectorAll('.track'));
-
+            const tracklist = document.getElementById('tracklist');
             const heroTitle = document.getElementById('hero-title');
             const heroArtist = document.getElementById('hero-artist');
             const heroDisc = document.getElementById('hero-disc');
@@ -1043,17 +934,49 @@
             const tTot = document.getElementById('t-tot');
             const heroPlayBtn = document.getElementById('hero-play');
             const barPlayBtn = document.getElementById('bar-play');
+            const volInput = document.getElementById('vol');
+            const progTrack = document.getElementById('prog-track');
 
             // ============================================================
-            //  ESTADO
+            //  CREAR LISTA DE CANCIONES
             // ============================================================
-            let currentIndex = -1;
-            let isPlaying = false;
-            let isShuffle = false;
-            let isRepeat = false;
+            function createTrackList() {
+                tracklist.innerHTML = '';
+                SONG_FILES.forEach((song, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'track';
+                    div.dataset.index = index;
+                    div.dataset.file = song.file;
+                    div.dataset.title = song.title;
+                    div.dataset.emoji = song.emoji;
+
+                    div.innerHTML = `
+                        <div class="t-icon">
+                            <span class="t-emoji">${song.emoji}</span>
+                            <div class="eq">
+                                <div class="eq-b" style="height:6px"></div>
+                                <div class="eq-b" style="height:10px"></div>
+                                <div class="eq-b" style="height:4px"></div>
+                            </div>
+                        </div>
+                        <div class="t-info">
+                            <h3>${song.title}</h3>
+                            <p>Ivan Alberson Martinez</p>
+                        </div>
+                        <div class="t-dur">—:——</div>
+                    `;
+
+                    div.addEventListener('click', function() {
+                        const idx = parseInt(this.dataset.index);
+                        loadTrack(idx, true);
+                    });
+
+                    tracklist.appendChild(div);
+                });
+            }
 
             // ============================================================
-            //  VISUALIZADOR (Barras)
+            //  VISUALIZADOR
             // ============================================================
             const viz = document.getElementById('viz');
             const visualBars = [];
@@ -1099,66 +1022,32 @@
                 return m + ':' + String(s).padStart(2, '0');
             }
 
-            function getAudioUrl(filePath) {
-                // Si ya tiene / al inicio, usamos BASE_URL + filePath sin el /
-                if (filePath.startsWith('/')) {
-                    return filePath;
-                }
-                return BASE_URL + filePath;
-            }
-
-            // ============================================================
-            //  CARGAR DURACIONES
-            // ============================================================
-            function loadDurations() {
-                tracks.forEach(el => {
-                    const file = el.dataset.file;
-                    if (!file) return;
-                    const a = new Audio();
-                    a.preload = 'metadata';
-                    a.src = getAudioUrl(file);
-                    a.addEventListener('loadedmetadata', function() {
-                        const durEl = el.querySelector('.t-dur');
-                        if (durEl) {
-                            durEl.textContent = formatTime(this.duration);
-                        }
-                    });
-                    a.addEventListener('error', function() {
-                        const durEl = el.querySelector('.t-dur');
-                        if (durEl) {
-                            durEl.textContent = '⚠️';
-                        }
-                        if (DEBUG) console.warn('⚠️ No se pudo cargar duración:', file);
-                    });
-                });
+            function getTrackElements() {
+                return Array.from(document.querySelectorAll('.track'));
             }
 
             // ============================================================
             //  REPRODUCCIÓN
             // ============================================================
             function loadTrack(index, autoPlay = false) {
+                const tracks = getTrackElements();
                 if (index < 0 || index >= tracks.length) return;
 
                 const el = tracks[index];
                 const file = el.dataset.file;
-                if (!file) {
-                    if (DEBUG) console.error('❌ Archivo no definido para índice:', index);
-                    return;
-                }
+                const title = el.dataset.title || 'Sin título';
+                const emoji = el.dataset.emoji || '🎵';
 
                 currentIndex = index;
 
-                // Construir URL
-                const url = getAudioUrl(file);
-                if (DEBUG) console.log('🎵 Cargando:', url);
+                // Construir URL completa
+                const url = AUDIO_PATH + file;
+                console.log('🎵 Cargando:', url);
 
-                // Configurar audio
                 aud.src = url;
                 aud.load();
 
                 // Actualizar UI
-                const title = el.dataset.title || 'Sin título';
-                const emoji = el.dataset.emoji || '🎵';
                 heroTitle.textContent = title;
                 heroDisc.textContent = emoji;
                 barThumb.textContent = emoji;
@@ -1186,15 +1075,29 @@
                         updatePlayButtons(true);
                         startVisualizer();
                         heroDisc.classList.add('spin');
-                        if (DEBUG) console.log('▶ Reproduciendo');
+                        console.log('▶ Reproduciendo');
                     })
                     .catch(err => {
-                        if (DEBUG) console.error('❌ Error al reproducir:', err);
-                        // Mostrar error amigable
-                        const msg = '❌ No se puede reproducir el audio.\n\n' +
-                            'URL: ' + aud.src + '\n\n' +
-                            'Error: ' + err.message;
-                        alert(msg);
+                        console.error('❌ Error al reproducir:', err);
+                        console.log('URL intentada:', aud.src);
+
+                        // Intentar con ruta alternativa
+                        const tracks = getTrackElements();
+                        if (currentIndex >= 0 && currentIndex < tracks.length) {
+                            const el = tracks[currentIndex];
+                            const file = el.dataset.file;
+                            // Probar con /music/audio/
+                            const altUrl = '/music/audio/' + file;
+                            console.log('🔄 Intentando ruta alternativa:', altUrl);
+                            aud.src = altUrl;
+                            aud.load();
+                            aud.play().catch(e => {
+                                console.error('❌ También falló:', e);
+                                alert('❌ No se puede reproducir el audio.\n\n' +
+                                    'El archivo no se encuentra en ninguna ruta conocida.\n\n' +
+                                    'Verifica que los MP3 estén en la carpeta "audio"');
+                            });
+                        }
                     });
             }
 
@@ -1204,7 +1107,7 @@
                 updatePlayButtons(false);
                 stopVisualizer();
                 heroDisc.classList.remove('spin');
-                if (DEBUG) console.log('⏸ Pausado');
+                console.log('⏸ Pausado');
             }
 
             function togglePlay() {
@@ -1220,6 +1123,7 @@
             }
 
             function nextTrack() {
+                const tracks = getTrackElements();
                 if (tracks.length === 0) return;
                 let nextIdx;
                 if (isShuffle) {
@@ -1233,8 +1137,8 @@
             }
 
             function prevTrack() {
+                const tracks = getTrackElements();
                 if (tracks.length === 0) return;
-                // Si pasaron más de 3 segundos, reiniciar canción
                 if (aud.currentTime > 3) {
                     aud.currentTime = 0;
                     return;
@@ -1269,55 +1173,13 @@
             });
 
             aud.addEventListener('error', function(e) {
-                if (DEBUG) {
-                    console.error('❌ Error de audio:', e);
-                    console.log('URL:', this.src);
-                    console.log('Código de error:', this.error?.code);
-                    console.log('Mensaje:', this.error?.message);
-                }
-                // Si hay error, intentar con ruta alternativa
-                if (this.src && !this.src.includes(BASE_URL + 'audio/')) {
-                    // Intentar con ruta absoluta
-                    const fileName = this.src.split('/').pop();
-                    const newUrl = '/audio/' + fileName;
-                    if (DEBUG) console.log('🔄 Intentando ruta alternativa:', newUrl);
-                    this.src = newUrl;
-                    this.load();
-                }
+                console.error('❌ Error de audio:', e);
+                console.log('URL:', this.src);
+                console.log('Código de error:', this.error?.code);
             });
 
             // ============================================================
-            //  CONTROLES DE PROGRESO
-            // ============================================================
-            const progTrack = document.getElementById('prog-track');
-
-            progTrack.addEventListener('click', function(e) {
-                const rect = this.getBoundingClientRect();
-                const x = (e.clientX - rect.left) / rect.width;
-                aud.currentTime = x * (aud.duration || 0);
-            });
-
-            // Soporte táctil
-            progTrack.addEventListener('touchstart', function(e) {
-                e.preventDefault();
-                const touch = e.touches[0];
-                const rect = this.getBoundingClientRect();
-                const x = (touch.clientX - rect.left) / rect.width;
-                aud.currentTime = x * (aud.duration || 0);
-            }, { passive: false });
-
-            // ============================================================
-            //  VOLUMEN
-            // ============================================================
-            const volInput = document.getElementById('vol');
-            aud.volume = 0.8;
-
-            volInput.addEventListener('input', function() {
-                aud.volume = parseFloat(this.value);
-            });
-
-            // ============================================================
-            //  EVENTOS DE BOTONES
+            //  CONTROLES
             // ============================================================
             // Play/Pause
             heroPlayBtn.addEventListener('click', togglePlay);
@@ -1334,7 +1196,7 @@
             shuffleBtn.addEventListener('click', function() {
                 isShuffle = !isShuffle;
                 this.classList.toggle('active-tog', isShuffle);
-                if (DEBUG) console.log('🔀 Shuffle:', isShuffle ? 'ON' : 'OFF');
+                console.log('🔀 Shuffle:', isShuffle ? 'ON' : 'OFF');
             });
 
             // Repeat
@@ -1342,22 +1204,32 @@
             repeatBtn.addEventListener('click', function() {
                 isRepeat = !isRepeat;
                 this.classList.toggle('active-tog', isRepeat);
-                if (DEBUG) console.log('🔁 Repeat:', isRepeat ? 'ON' : 'OFF');
+                console.log('🔁 Repeat:', isRepeat ? 'ON' : 'OFF');
             });
 
-            // Click en tracks
-            tracks.forEach((el, i) => {
-                el.addEventListener('click', function() {
-                    loadTrack(i, true);
-                });
-                // Soporte táctil
-                el.addEventListener('touchstart', function(e) {
-                    // Prevenir doble click en móviles
-                }, { passive: true });
+            // Progreso
+            progTrack.addEventListener('click', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width;
+                aud.currentTime = x * (aud.duration || 0);
+            });
+
+            progTrack.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const rect = this.getBoundingClientRect();
+                const x = (touch.clientX - rect.left) / rect.width;
+                aud.currentTime = x * (aud.duration || 0);
+            }, { passive: false });
+
+            // Volumen
+            aud.volume = 0.8;
+            volInput.addEventListener('input', function() {
+                aud.volume = parseFloat(this.value);
             });
 
             // ============================================================
-            //  TECLADO (para escritorio)
+            //  TECLADO
             // ============================================================
             document.addEventListener('keydown', function(e) {
                 if (e.code === 'Space') {
@@ -1385,7 +1257,7 @@
                 e.preventDefault();
                 deferredPrompt = e;
                 installBanner.style.display = 'flex';
-                if (DEBUG) console.log('📲 Evento beforeinstallprompt detectado');
+                console.log('📲 Evento beforeinstallprompt detectado');
             });
 
             installBtn.addEventListener('click', async function() {
@@ -1393,20 +1265,19 @@
                 try {
                     deferredPrompt.prompt();
                     const result = await deferredPrompt.userChoice;
-                    if (DEBUG) console.log('📲 Instalación:', result.outcome);
+                    console.log('📲 Instalación:', result.outcome);
                     if (result.outcome === 'accepted') {
                         installBanner.style.display = 'none';
                     }
                 } catch (err) {
-                    if (DEBUG) console.error('❌ Error en instalación:', err);
+                    console.error('❌ Error en instalación:', err);
                 }
                 deferredPrompt = null;
             });
 
-            // Si ya está instalada, ocultar banner
             window.addEventListener('appinstalled', function() {
                 installBanner.style.display = 'none';
-                if (DEBUG) console.log('✅ App instalada');
+                console.log('✅ App instalada');
             });
 
             // ============================================================
@@ -1415,60 +1286,73 @@
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('/sw.js')
                     .then(function(reg) {
-                        if (DEBUG) console.log('✅ Service Worker registrado');
+                        console.log('✅ Service Worker registrado');
                     })
                     .catch(function(err) {
-                        if (DEBUG) console.warn('⚠️ Error al registrar SW:', err);
+                        console.warn('⚠️ Error al registrar SW:', err);
                     });
-
-                // Detectar actualizaciones
-                navigator.serviceWorker.ready.then(function(reg) {
-                    reg.addEventListener('updatefound', function() {
-                        const newSW = reg.installing;
-                        newSW.addEventListener('statechange', function() {
-                            if (this.state === 'installed' && navigator.serviceWorker.controller) {
-                                if (DEBUG) console.log('🔄 Nueva versión disponible');
-                            }
-                        });
-                    });
-                });
             }
 
             // ============================================================
             //  INICIALIZACIÓN
             // ============================================================
-            function init() {
-                // Crear visualizador
+            async function init() {
+                console.log('🎵 Ivan Beats PWA - Iniciando...');
+
+                // 1. Crear lista de canciones
+                createTrackList();
+
+                // 2. Inicializar visualizador
                 initVisualizer();
 
-                // Cargar duraciones
-                loadDurations();
+                // 3. Detectar ruta de audios automáticamente
+                console.log('🔍 Buscando audios...');
+                AUDIO_PATH = await findAudioPath();
+                console.log('📁 Ruta de audios:', AUDIO_PATH);
 
-                // Estado inicial
+                // 4. Cargar duraciones
+                const tracks = getTrackElements();
+                tracks.forEach(el => {
+                    const file = el.dataset.file;
+                    if (!file) return;
+                    const a = new Audio();
+                    a.preload = 'metadata';
+                    a.src = AUDIO_PATH + file;
+                    a.addEventListener('loadedmetadata', function() {
+                        const durEl = el.querySelector('.t-dur');
+                        if (durEl) {
+                            durEl.textContent = formatTime(this.duration);
+                        }
+                    });
+                    a.addEventListener('error', function() {
+                        const durEl = el.querySelector('.t-dur');
+                        if (durEl) {
+                            durEl.textContent = '⚠️';
+                        }
+                        console.warn('⚠️ No se pudo cargar:', file);
+                    });
+                });
+
+                // 5. Estado inicial
                 updatePlayButtons(false);
 
-                if (DEBUG) {
-                    console.log('🎵 Ivan Beats PWA cargado');
-                    console.log('📁 Base URL:', BASE_URL);
-                    console.log('🎵 Canciones:', tracks.length);
-                    tracks.forEach((t, i) => {
-                        console.log(`  ${i + 1}. ${t.dataset.title} → ${t.dataset.file}`);
-                    });
-                }
+                console.log('✅ Ivan Beats PVA listo!');
+                console.log('📁 Ruta de audio:', AUDIO_PATH);
+                console.log('🎵 Canciones:', SONG_FILES.length);
 
-                // Verificar si los audios existen (solo en desarrollo)
-                if (DEBUG && tracks.length > 0) {
-                    const testUrl = getAudioUrl(tracks[0].dataset.file);
+                // 6. Verificar primer audio
+                if (tracks.length > 0) {
+                    const testUrl = AUDIO_PATH + tracks[0].dataset.file;
                     fetch(testUrl, { method: 'HEAD' })
                         .then(res => {
                             if (res.ok) {
                                 console.log('✅ Audio de prueba OK:', testUrl);
                             } else {
-                                console.warn('⚠️ Audio de prueba NO encontrado:', testUrl, 'Status:', res.status);
+                                console.warn('⚠️ Audio de prueba NO encontrado:', testUrl);
                             }
                         })
-                        .catch(err => {
-                            console.warn('⚠️ No se pudo verificar audio:', testUrl, err);
+                        .catch(() => {
+                            console.warn('⚠️ No se pudo verificar audio');
                         });
                 }
             }
@@ -1479,29 +1363,6 @@
             } else {
                 init();
             }
-
-            // ============================================================
-            //  RECUPERAR ESTADO AL VOLVER A LA APP (PWA)
-            // ============================================================
-            document.addEventListener('visibilitychange', function() {
-                if (document.visibilityState === 'visible' && isPlaying) {
-                    // Si la app vuelve a primer plano y debería estar sonando
-                    if (aud.paused) {
-                        aud.play().catch(() => {});
-                    }
-                }
-            });
-
-            // ============================================================
-            //  MANEJO DE ERRORES DE RED PARA MÓVILES
-            // ============================================================
-            window.addEventListener('offline', function() {
-                if (DEBUG) console.warn('📶 Sin conexión a internet');
-            });
-
-            window.addEventListener('online', function() {
-                if (DEBUG) console.log('📶 Conexión restablecida');
-            });
 
         })();
     </script>
