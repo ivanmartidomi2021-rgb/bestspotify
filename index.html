@@ -4,17 +4,16 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <meta name="theme-color" content="#0a0a14"/>
-    <meta name="description" content="Ivan Alberson Martinez — Instituto Nacional De Osiala"/>
+    <meta name="description" content="Ivan Alberson Martinez — INO"/>
     <meta name="mobile-web-app-capable" content="yes"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
     
-    <!-- MANIFEST INYECTADO -->
     <script>
         const manifest = {
-            name: "Ivan Beats - Instituto Nacional De Osiala",
+            name: "Ivan Beats - INO",
             short_name: "Ivan Beats",
-            description: "Reproductor de música personal de Ivan Alberson Martinez - Instituto Nacional De Osiala",
+            description: "Reproductor de música - Instituto Nacional De Osiala",
             start_url: "/",
             scope: "/",
             display: "standalone",
@@ -588,7 +587,7 @@
         }
 
         /* ============================================================
-           CRÉDITOS - INSTITUTO NACIONAL DE OSIALA
+           CRÉDITOS CON "INO" (Instituto Nacional De Osiala)
            ============================================================ */
         .credits {
             text-align: center;
@@ -608,16 +607,24 @@
             background-clip: text;
         }
 
-        .credits .instituto {
+        .credits .ino {
             display: inline-block;
-            font-weight: 700;
+            font-weight: 800;
             color: var(--a3);
-            background: rgba(6, 182, 212, 0.08);
-            border: 1px solid rgba(6, 182, 212, 0.15);
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.2);
             border-radius: 100px;
             padding: 2px 14px;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+        }
+
+        .credits .ino-full {
+            display: block;
+            font-size: 0.55rem;
+            opacity: 0.4;
             letter-spacing: 0.05em;
+            margin-top: -2px;
         }
 
         .credits .separator {
@@ -627,9 +634,9 @@
 
         .credits .sub {
             display: block;
-            font-size: 0.6rem;
-            opacity: 0.5;
-            margin-top: 2px;
+            font-size: 0.55rem;
+            opacity: 0.4;
+            margin-top: 4px;
             letter-spacing: 0.08em;
         }
 
@@ -890,9 +897,13 @@
                 line-height: 1.8;
             }
 
-            .credits .instituto {
-                font-size: 0.6rem;
+            .credits .ino {
+                font-size: 0.65rem;
                 padding: 1px 10px;
+            }
+
+            .credits .ino-full {
+                font-size: 0.5rem;
             }
         }
 
@@ -974,7 +985,6 @@
             <div class="sec-label">🎵 Tu Playlist</div>
             <div id="tracklist">
                 
-                <!-- CANCIONES ORIGINALES -->
                 <div class="track" data-file="audio/Simpons.mp3" data-title="Los Simpson" data-emoji="🎤" data-artist="Ivan Alberson Martinez">
                     <div class="t-icon">
                         <span class="t-emoji">🎤</span>
@@ -1103,7 +1113,6 @@
                     <div class="t-dur">—:——</div>
                 </div>
 
-                <!-- NUEVAS CANCIONES -->
                 <div class="track" data-file="audio/Banda MS - A Lo Mejor (lyricsletras).mp3" data-title="A Lo Mejor" data-emoji="🎸" data-artist="Banda MS">
                     <div class="t-icon">
                         <span class="t-emoji">🎸</span>
@@ -1171,14 +1180,15 @@
             </div>
 
             <!-- ============================================================
-                 CRÉDITOS - INSTITUTO NACIONAL DE OSIALA
+                 CRÉDITOS CON "INO" ABREVIADO
                  ============================================================ -->
             <div class="credits">
                 <div>
                     Hecho con ❤️ por <span class="dev">Ivan Alberson Martinez</span>
                     <span class="separator">|</span>
-                    <span class="instituto">🏛️ Instituto Nacional De Osiala</span>
+                    <span class="ino">🏛️ INO</span>
                 </div>
+                <span class="ino-full">Instituto Nacional De Osiala</span>
                 <span class="sub">Mini Spotify Personal · PWA · Funciona sin internet</span>
             </div>
 
@@ -1206,15 +1216,12 @@
 
     <script>
         // ============================================================
-        //  IVAN BEATS - INSTITUTO NACIONAL DE OSIALA
+        //  IVAN BEATS - INO (Instituto Nacional De Osiala)
         // ============================================================
 
         (function() {
             'use strict';
 
-            // ============================================================
-            //  SERVICE WORKER CON CACHE
-            // ============================================================
             if ('serviceWorker' in navigator) {
                 const FILES_TO_CACHE = [
                     '/',
@@ -1234,7 +1241,7 @@
                 ];
 
                 const swCode = `
-                    const CACHE_NAME = 'ivan-beats-v6';
+                    const CACHE_NAME = 'ivan-beats-v7';
                     const urlsToCache = ${JSON.stringify(FILES_TO_CACHE)};
 
                     self.addEventListener('install', event => {
@@ -1285,18 +1292,12 @@
                     .catch(err => console.warn('⚠️ Error SW:', err));
             }
 
-            // ============================================================
-            //  ESTADO
-            // ============================================================
             let currentIndex = -1;
             let isPlaying = false;
             let isShuffle = false;
             let isRepeat = false;
             let deferredPrompt = null;
 
-            // ============================================================
-            //  ELEMENTOS DOM
-            // ============================================================
             const aud = document.getElementById('aud');
             const tracks = Array.from(document.querySelectorAll('.track'));
             const heroTitle = document.getElementById('hero-title');
@@ -1316,9 +1317,6 @@
             const installHeaderBtn = document.getElementById('installHeaderBtn');
             const closeBanner = document.getElementById('closeBanner');
 
-            // ============================================================
-            //  VISUALIZADOR
-            // ============================================================
             const viz = document.getElementById('viz');
             const visualBars = [];
 
@@ -1353,9 +1351,6 @@
                 });
             }
 
-            // ============================================================
-            //  UTILIDADES
-            // ============================================================
             function formatTime(seconds) {
                 if (!isFinite(seconds) || seconds < 0) return '0:00';
                 const m = Math.floor(seconds / 60);
@@ -1374,9 +1369,6 @@
                 };
             }
 
-            // ============================================================
-            //  MEDIA SESSION API
-            // ============================================================
             function updateMediaSession() {
                 if (!('mediaSession' in navigator)) return;
 
@@ -1389,7 +1381,7 @@
                 const metadata = new MediaMetadata({
                     title: track.title,
                     artist: track.artist,
-                    album: 'Ivan Beats - Instituto Nacional De Osiala',
+                    album: 'Ivan Beats - INO',
                     artwork: [
                         { src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">' + track.emoji + '</text></svg>', sizes: '512x512' }
                     ]
@@ -1426,9 +1418,6 @@
                 navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
             }
 
-            // ============================================================
-            //  CARGAR DURACIONES
-            // ============================================================
             function loadDurations() {
                 tracks.forEach(el => {
                     const file = el.dataset.file;
@@ -1451,9 +1440,6 @@
                 });
             }
 
-            // ============================================================
-            //  REPRODUCCIÓN
-            // ============================================================
             function loadTrack(index, autoPlay = false) {
                 if (index < 0 || index >= tracks.length) return;
 
@@ -1557,9 +1543,6 @@
                 barPlayBtn.textContent = icon;
             }
 
-            // ============================================================
-            //  EVENTOS DEL AUDIO
-            // ============================================================
             aud.addEventListener('timeupdate', function() {
                 const pct = this.duration ? (this.currentTime / this.duration) * 100 : 0;
                 progFill.style.width = pct + '%';
@@ -1593,9 +1576,6 @@
                 console.log('URL:', this.src);
             });
 
-            // ============================================================
-            //  CONTROLES
-            // ============================================================
             heroPlayBtn.addEventListener('click', togglePlay);
             barPlayBtn.addEventListener('click', togglePlay);
 
@@ -1634,10 +1614,6 @@
             volInput.addEventListener('input', function() {
                 aud.volume = parseFloat(this.value);
             });
-
-            // ============================================================
-            //  PWA - INSTALACIÓN
-            // ============================================================
 
             function showInstallButtons() {
                 installBanner.style.display = 'flex';
@@ -1700,9 +1676,6 @@
                 }, 3000);
             });
 
-            // ============================================================
-            //  INICIALIZACIÓN
-            // ============================================================
             function init() {
                 console.log('🎵 Ivan Beats PWA - ' + tracks.length + ' canciones');
 
