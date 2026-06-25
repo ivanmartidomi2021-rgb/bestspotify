@@ -35,48 +35,6 @@
         document.head.appendChild(link);
     </script>
     
-    <!-- Service Worker inline -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            const swCode = `
-                const CACHE_NAME = 'ivan-beats-v3';
-                const urlsToCache = [
-                    '/',
-                    '/index.html'
-                ];
-                self.addEventListener('install', event => {
-                    event.waitUntil(
-                        caches.open(CACHE_NAME)
-                            .then(cache => cache.addAll(urlsToCache))
-                            .then(() => self.skipWaiting())
-                    );
-                });
-                self.addEventListener('activate', event => {
-                    event.waitUntil(
-                        caches.keys().then(cacheNames => {
-                            return Promise.all(
-                                cacheNames.map(cacheName => {
-                                    if (cacheName !== CACHE_NAME) {
-                                        return caches.delete(cacheName);
-                                    }
-                                })
-                            );
-                        }).then(() => self.clients.claim())
-                    );
-                });
-                self.addEventListener('fetch', event => {
-                    event.respondWith(
-                        caches.match(event.request)
-                            .then(response => response || fetch(event.request))
-                    );
-                });
-            `;
-            const swBlob = new Blob([swCode], { type: 'application/javascript' });
-            const swURL = URL.createObjectURL(swBlob);
-            navigator.serviceWorker.register(swURL).catch(() => {});
-        }
-    </script>
-    
     <title>Ivan Beats 🎵</title>
 
     <style>
@@ -972,10 +930,7 @@
             <div class="sec-label">🎵 Tu Playlist</div>
             <div id="tracklist">
                 
-                <!-- ========================================================= -->
-                <!-- CANCIONES ORIGINALES (8)                                  -->
-                <!-- ========================================================= -->
-                
+                <!-- CANCIONES ORIGINALES -->
                 <div class="track" data-file="audio/Simpons.mp3" data-title="Los Simpson" data-emoji="🎤" data-artist="Ivan Alberson Martinez">
                     <div class="t-icon">
                         <span class="t-emoji">🎤</span>
@@ -1104,10 +1059,7 @@
                     <div class="t-dur">—:——</div>
                 </div>
 
-                <!-- ========================================================= -->
-                <!-- NUEVAS CANCIONES AGREGADAS (4)                            -->
-                <!-- ========================================================= -->
-
+                <!-- NUEVAS CANCIONES -->
                 <div class="track" data-file="audio/Banda MS - A Lo Mejor (lyricsletras).mp3" data-title="A Lo Mejor" data-emoji="🎸" data-artist="Banda MS">
                     <div class="t-icon">
                         <span class="t-emoji">🎸</span>
@@ -1202,11 +1154,86 @@
 
     <script>
         // ============================================================
-        //  IVAN BEATS - PWA COMPLETA CON TODAS LAS CANCIONES
+        //  IVAN BEATS - PWA COMPLETA CON CACHE PARA MODO OFFLINE
         // ============================================================
 
         (function() {
             'use strict';
+
+            // ============================================================
+            //  REGISTRAR SERVICE WORKER CON CACHE DE AUDIOS
+            // ============================================================
+            if ('serviceWorker' in navigator) {
+                // Lista completa de archivos a cachear
+                const FILES_TO_CACHE = [
+                    '/',
+                    '/index.html',
+                    'audio/Simpons.mp3',
+                    'audio/Tattoo.mp3',
+                    'audio/Tu_boda.mp3',
+                    'audio/Tu_y_Yo.mp3',
+                    'audio/UNA_CERVEZA.mp3',
+                    'audio/escapate.mp3',
+                    'audio/vete_ya.mp3',
+                    'audio/vss.mp3',
+                    'audio/Banda MS - A Lo Mejor (lyricsletras).mp3',
+                    'audio/Calibre 50 - Amor Del Bueno (Lyric Video).mp3',
+                    'audio/Calibre 50 - Si Te Pudiera Mentir (LETRA).mp3',
+                    'audio/Romeo Santos - Que Se Mueran (Audio).mp3'
+                ];
+
+                const swCode = `
+                    const CACHE_NAME = 'ivan-beats-v4';
+                    const urlsToCache = ${JSON.stringify(FILES_TO_CACHE)};
+
+                    self.addEventListener('install', event => {
+                        event.waitUntil(
+                            caches.open(CACHE_NAME)
+                                .then(cache => {
+                                    console.log('📦 Cacheando archivos...');
+                                    return cache.addAll(urlsToCache);
+                                })
+                                .then(() => self.skipWaiting())
+                        );
+                    });
+
+                    self.addEventListener('activate', event => {
+                        event.waitUntil(
+                            caches.keys().then(cacheNames => {
+                                return Promise.all(
+                                    cacheNames.map(cacheName => {
+                                        if (cacheName !== CACHE_NAME) {
+                                            console.log('🗑️ Eliminando caché antigua:', cacheName);
+                                            return caches.delete(cacheName);
+                                        }
+                                    })
+                                );
+                            }).then(() => self.clients.claim())
+                        );
+                    });
+
+                    self.addEventListener('fetch', event => {
+                        event.respondWith(
+                            caches.match(event.request)
+                                .then(response => {
+                                    if (response) {
+                                        return response;
+                                    }
+                                    return fetch(event.request).catch(() => {
+                                        // Si falla la red, intentar devolver algo
+                                        return caches.match('/');
+                                    });
+                                })
+                        );
+                    });
+                `;
+
+                const swBlob = new Blob([swCode], { type: 'application/javascript' });
+                const swURL = URL.createObjectURL(swBlob);
+                navigator.serviceWorker.register(swURL)
+                    .then(() => console.log('✅ Service Worker registrado con cache de audios'))
+                    .catch(err => console.warn('⚠️ Error SW:', err));
+            }
 
             // ============================================================
             //  ESTADO
