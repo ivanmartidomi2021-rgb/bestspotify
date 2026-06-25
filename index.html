@@ -11,7 +11,6 @@
     
     <!-- Manifest inline -->
     <script>
-        // MANIFEST INJECTADO DIRECTAMENTE
         const manifest = {
             name: "Ivan Beats - Mi Spotify Personal",
             short_name: "Ivan Beats",
@@ -28,7 +27,6 @@
                 { src: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎵</text></svg>", sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" }
             ]
         };
-        // Registrar manifest
         const blob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
         const manifestURL = URL.createObjectURL(blob);
         const link = document.createElement('link');
@@ -39,10 +37,9 @@
     
     <!-- Service Worker inline -->
     <script>
-        // SERVICE WORKER INYECTADO DIRECTAMENTE
         if ('serviceWorker' in navigator) {
             const swCode = `
-                const CACHE_NAME = 'ivan-beats-v2';
+                const CACHE_NAME = 'ivan-beats-v3';
                 const urlsToCache = [
                     '/',
                     '/index.html'
@@ -211,7 +208,6 @@
             white-space: nowrap;
         }
 
-        /* ===== INSTALL BANNER ===== */
         #install-banner {
             display: none;
             margin: 0 14px 14px;
@@ -294,7 +290,6 @@
             color: var(--text);
         }
 
-        /* ===== BOTÓN INSTALAR EN HEADER ===== */
         .install-header-btn {
             background: linear-gradient(135deg, var(--a1), var(--a2));
             color: #fff;
@@ -320,7 +315,6 @@
             display: flex;
         }
 
-        /* ===== HERO ===== */
         #hero {
             margin: 0 14px 20px;
             border-radius: 20px;
@@ -977,6 +971,11 @@
 
             <div class="sec-label">🎵 Tu Playlist</div>
             <div id="tracklist">
+                
+                <!-- ========================================================= -->
+                <!-- CANCIONES ORIGINALES (8)                                  -->
+                <!-- ========================================================= -->
+                
                 <div class="track" data-file="audio/Simpons.mp3" data-title="Los Simpson" data-emoji="🎤" data-artist="Ivan Alberson Martinez">
                     <div class="t-icon">
                         <span class="t-emoji">🎤</span>
@@ -1104,6 +1103,75 @@
                     </div>
                     <div class="t-dur">—:——</div>
                 </div>
+
+                <!-- ========================================================= -->
+                <!-- NUEVAS CANCIONES AGREGADAS (4)                            -->
+                <!-- ========================================================= -->
+
+                <div class="track" data-file="audio/Banda MS - A Lo Mejor (lyricsletras).mp3" data-title="A Lo Mejor" data-emoji="🎸" data-artist="Banda MS">
+                    <div class="t-icon">
+                        <span class="t-emoji">🎸</span>
+                        <div class="eq">
+                            <div class="eq-b" style="height:6px"></div>
+                            <div class="eq-b" style="height:10px"></div>
+                            <div class="eq-b" style="height:4px"></div>
+                        </div>
+                    </div>
+                    <div class="t-info">
+                        <h3>A Lo Mejor</h3>
+                        <p>Banda MS</p>
+                    </div>
+                    <div class="t-dur">—:——</div>
+                </div>
+
+                <div class="track" data-file="audio/Calibre 50 - Amor Del Bueno (Lyric Video).mp3" data-title="Amor Del Bueno" data-emoji="❤️" data-artist="Calibre 50">
+                    <div class="t-icon">
+                        <span class="t-emoji">❤️</span>
+                        <div class="eq">
+                            <div class="eq-b" style="height:6px"></div>
+                            <div class="eq-b" style="height:10px"></div>
+                            <div class="eq-b" style="height:4px"></div>
+                        </div>
+                    </div>
+                    <div class="t-info">
+                        <h3>Amor Del Bueno</h3>
+                        <p>Calibre 50</p>
+                    </div>
+                    <div class="t-dur">—:——</div>
+                </div>
+
+                <div class="track" data-file="audio/Calibre 50 - Si Te Pudiera Mentir (LETRA).mp3" data-title="Si Te Pudiera Mentir" data-emoji="💔" data-artist="Calibre 50">
+                    <div class="t-icon">
+                        <span class="t-emoji">💔</span>
+                        <div class="eq">
+                            <div class="eq-b" style="height:6px"></div>
+                            <div class="eq-b" style="height:10px"></div>
+                            <div class="eq-b" style="height:4px"></div>
+                        </div>
+                    </div>
+                    <div class="t-info">
+                        <h3>Si Te Pudiera Mentir</h3>
+                        <p>Calibre 50</p>
+                    </div>
+                    <div class="t-dur">—:——</div>
+                </div>
+
+                <div class="track" data-file="audio/Romeo Santos - Que Se Mueran (Audio).mp3" data-title="Que Se Mueran" data-emoji="💀" data-artist="Romeo Santos">
+                    <div class="t-icon">
+                        <span class="t-emoji">💀</span>
+                        <div class="eq">
+                            <div class="eq-b" style="height:6px"></div>
+                            <div class="eq-b" style="height:10px"></div>
+                            <div class="eq-b" style="height:4px"></div>
+                        </div>
+                    </div>
+                    <div class="t-info">
+                        <h3>Que Se Mueran</h3>
+                        <p>Romeo Santos</p>
+                    </div>
+                    <div class="t-dur">—:——</div>
+                </div>
+
             </div>
 
             <div class="credits">
@@ -1134,8 +1202,7 @@
 
     <script>
         // ============================================================
-        //  IVAN BEATS - TODO EN UN SOLO ARCHIVO
-        //  CON MEDIA SESSION PARA CONTROLES EXTERNOS
+        //  IVAN BEATS - PWA COMPLETA CON TODAS LAS CANCIONES
         // ============================================================
 
         (function() {
@@ -1167,7 +1234,6 @@
             const volInput = document.getElementById('vol');
             const progTrack = document.getElementById('prog-track');
 
-            // Elementos de instalación
             const installBanner = document.getElementById('install-banner');
             const installBtn = document.getElementById('installBtn');
             const installHeaderBtn = document.getElementById('installHeaderBtn');
@@ -1232,7 +1298,7 @@
             }
 
             // ============================================================
-            //  MEDIA SESSION API - CONTROLES EXTERNOS
+            //  MEDIA SESSION API
             // ============================================================
             function updateMediaSession() {
                 if (!('mediaSession' in navigator)) return;
@@ -1243,7 +1309,6 @@
                     return;
                 }
 
-                // Crear metadata para controles externos
                 const metadata = new MediaMetadata({
                     title: track.title,
                     artist: track.artist,
@@ -1255,7 +1320,6 @@
 
                 navigator.mediaSession.metadata = metadata;
 
-                // Acciones desde fuera de la app
                 navigator.mediaSession.setActionHandler('play', () => {
                     if (currentIndex < 0) {
                         loadTrack(0, true);
@@ -1563,14 +1627,14 @@
             //  INICIALIZACIÓN
             // ============================================================
             function init() {
-                console.log('🎵 Ivan Beats PWA');
+                console.log('🎵 Ivan Beats PWA - ' + tracks.length + ' canciones');
 
                 initVisualizer();
                 loadDurations();
                 updatePlayButtons(false);
 
                 if ('mediaSession' in navigator) {
-                    console.log('📱 Media Session API - Controles externos disponibles');
+                    console.log('📱 Media Session API disponible');
                     updateMediaSession();
                 }
 
